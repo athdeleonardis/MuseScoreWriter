@@ -1,4 +1,4 @@
-package Test;
+package Test.XML;
 
 import XML.XMLObject;
 
