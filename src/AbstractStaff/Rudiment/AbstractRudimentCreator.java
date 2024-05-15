@@ -1,4 +1,4 @@
-package Rudiment;
+package AbstractStaff.Rudiment;
 
 import AbstractStaff.AbstractStaff;
 

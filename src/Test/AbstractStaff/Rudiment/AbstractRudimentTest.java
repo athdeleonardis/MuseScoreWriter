@@ -1,6 +1,6 @@
-package Test.Rudiment;
+package Test.AbstractStaff.Rudiment;
 
-import Rudiment.AbstractRudimentCreator;
+import AbstractStaff.Rudiment.AbstractRudimentCreator;
 
 public class AbstractRudimentTest {
     public static void main(String[] args) {
