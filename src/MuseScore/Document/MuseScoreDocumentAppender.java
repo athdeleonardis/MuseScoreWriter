@@ -105,24 +105,28 @@ public class MuseScoreDocumentAppender {
     }
 
     public MuseScoreDocumentAppender addNotes(ArrayList<Note> notes, Fraction duration, boolean addLimbText) {
-        if (addLimbText) {
-            Collections.sort(notes);
-            for (Note note : notes) {
-                Limb limb = note.limb;
-                if (limb != null && limb.isArm())
-                    addStaffText(note.limb.toString(), false);
+        if (notes != null) {
+            if (addLimbText) {
+                Collections.sort(notes);
+                for (Note note : notes) {
+                    Limb limb = note.limb;
+                    if (limb != null && limb.isArm())
+                        addStaffText(note.limb.toString(), false);
+                }
+                for (int i = notes.size()-1; i > -1; i--) {
+                    Note note = notes.get(i);
+                    if (note.limb == null || note.limb.isArm())
+                        continue;
+                    addStaffText(note.limb.toString(), true);
+                }
             }
-            for (int i = notes.size()-1; i > -1; i--) {
-                Note note = notes.get(i);
-                if (note.limb == null || note.limb.isArm())
-                    continue;
-                addStaffText(note.limb.toString(), true);
-            }
+            ArrayList<XMLObject> xmlNotes = new ArrayList(notes.size());
+            for (Note note : notes)
+                xmlNotes.add(note.xmlObject);
+            addNotes(xmlNotes, duration);
         }
-        ArrayList<XMLObject> xmlNotes = new ArrayList(notes.size());
-        for (Note note : notes)
-            xmlNotes.add(note.xmlObject);
-        addNotes(xmlNotes, duration);
+        else
+            addNotes(null, duration);
         return this;
     }
 
