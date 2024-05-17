@@ -155,11 +155,13 @@ public class MuseScoreDocumentCreator {
 
     public static String getDurationType(int durationType) {
         switch (durationType) {
-            case 1: return "";
-            case 2: return "";
+            case 1: return "whole";
+            case 2: return "half";
             case 4: return "quarter";
             case 8: return "eighth";
             case 16: return "16th";
+            case 32: return "32nd";
+            case 64: return "64th";
             default: return null;
         }
     }
