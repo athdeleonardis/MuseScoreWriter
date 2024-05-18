@@ -63,7 +63,7 @@ public class AbstractRudimentCreator {
     }
 
     public void logRudiment(AbstractStaff<Integer,Boolean> abstractRudiment) {
-        String toLog = "Abstract Rudiment: ";
+        String toLog = "Abstract Rudiment: { name: " + abstractRudiment.getName() + ", notes: { ";
         for (int position = 0; position < abstractRudiment.Length(); position++) {
             boolean hasNote = false;
             for (int limbId : abstractRudiment.getNoteNames()) {
@@ -76,6 +76,7 @@ public class AbstractRudimentCreator {
                 toLog += "_";
             toLog += ",";
         }
+        toLog += " }}";
         System.out.println(toLog);
     }
 
