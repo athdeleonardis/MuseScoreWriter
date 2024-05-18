@@ -9,6 +9,19 @@ public class Note implements Comparable {
     public int pitch;
     public Limb limb;
 
+    public Note(String name, int pitch, int tpc) {
+        this.name = name;
+        this.pitch = pitch;
+        this.xmlObject = new XMLObject("Note")
+                .addChild("pitch", ""+pitch)
+                .addChild("tpc", ""+tpc);
+    }
+
+    public Note setLimb(Limb limb) {
+        this.limb = limb;
+        return this;
+    }
+
     public int compareTo(Object other) {
         return this.pitch - ((Note)other).pitch;
     }

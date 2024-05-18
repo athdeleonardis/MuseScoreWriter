@@ -15,35 +15,36 @@ public class NoteCreator {
         return instance;
     }
     public Note create(String name) {
-        Note note;
+        Note note = null;
         switch (name.toLowerCase()) {
             case "hihat":
-                note = new Note();
-                note.name = "Hihat";
-                note.xmlObject = new XMLObject("Note")
-                        .addChild("pitch", "79")
-                        .addChild("tpc", "15")
+                note = new Note("Hihat", 79, 15);
+                note.xmlObject
                         .addChild("head", "cross")
                         .addChild("dead", "1");
-                note.pitch = 75;
-                return note;
+                break;
             case "snare":
-                note = new Note();
-                note.name = "Snare";
-                note.xmlObject = new XMLObject("Note")
-                        .addChild("pitch", "72")
-                        .addChild("tpc", "14");
-                note.pitch = 72;
-                return note;
+                note = new Note("Snare", 72, 14);
+                break;
             case "kick":
-                note = new Note();
-                note.name = "Kick";
-                note.xmlObject = new XMLObject("Note")
-                        .addChild("pitch", "65")
-                        .addChild("tpc", "13");
-                note.pitch = 65;
-                return note;
+                note = new Note("Kick", 65, 13);
+                break;
+            case "hightom":
+                note = new Note("HighTom", 76, 18);
+                break;
+            case "midtom":
+                note = new Note("MidTom", 74, 16);
+                break;
+            case "lowtom":
+                note = new Note("LowTom", 69, 17);
+                break;
+            case "hihatclose":
+                note = new Note("HihatClose", 65, 13);
+                note.xmlObject
+                        .addChild("head", "cross")
+                        .addChild("dead", "1");
+                break;
         }
-        return null;
+        return note;
     }
 }

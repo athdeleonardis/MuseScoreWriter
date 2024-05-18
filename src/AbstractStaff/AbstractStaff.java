@@ -5,12 +5,16 @@ import java.util.Collection;
 import Util.ArrayListUtil;
 
 public class AbstractStaff<T,S> {
+    private String name;
     private HashMap<T,ArrayList<S>> noteToPlacements;
     private int length;
 
-    public AbstractStaff() {
+    public AbstractStaff(String name) {
+        this.name = name;
         noteToPlacements = new HashMap<T, ArrayList<S>>();
     }
+
+    public String getName() { return name; }
 
     public int Length() {
         return length;
@@ -62,5 +66,9 @@ public class AbstractStaff<T,S> {
 
     public S getNoteAtPosition(T noteName, int position) {
         return noteToPlacements.get(noteName).get(position);
+    }
+
+    public String toString() {
+        return this.name;
     }
 }

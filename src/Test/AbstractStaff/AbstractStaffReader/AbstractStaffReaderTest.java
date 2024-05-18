@@ -22,7 +22,7 @@ public class AbstractStaffReaderTest {
         Note hihat = nc.create("Hihat");
         hihat.limb = Limb.RightArm;
 
-        AbstractStaff<Integer, Note> abstractStaff = new AbstractStaff()
+        AbstractStaff<Integer, Note> abstractStaff = new AbstractStaff("BreakBeat")
                 .increaseToCapacity(16)
                 .setNoteAtPosition(0, 0, kick)
                 .setNoteAtPosition(2, 0, hihat)
