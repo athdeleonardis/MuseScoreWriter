@@ -21,9 +21,11 @@ public class AbstractStaffReaderTest {
         snare.limb = Limb.LeftArm;
         Note hihat = nc.create("Hihat");
         hihat.limb = Limb.RightArm;
+        Note hihatPedal = nc.create("HihatPedal");
+        hihatPedal.limb = Limb.LeftLeg;
 
         AbstractStaff<Integer, Note> abstractStaff = new AbstractStaff("BreakBeat")
-                .increaseToCapacity(16)
+                .increaseToLength(16)
                 .setNoteAtPosition(0, 0, kick)
                 .setNoteAtPosition(2, 0, hihat)
                 .setNoteAtPosition(0, 2, kick)
@@ -40,6 +42,14 @@ public class AbstractStaffReaderTest {
                 .setNoteAtPosition(1, 12, snare)
                 .setNoteAtPosition(2, 14, hihat);
 
+        AbstractStaff<Integer, Note> footRhythm = new AbstractStaff("FootRhythm")
+                .increaseToLength(8)
+                .setNoteAtPosition(0, 0, kick)
+                .setNoteAtPosition(3, 2, hihatPedal)
+                .setNoteAtPosition(0, 3, kick)
+                .setNoteAtPosition(0, 6, kick)
+                .setNoteAtPosition(3, 6, hihatPedal);
+
         Fraction timeSignature = new Fraction(15,16);
         Fraction maxGroupSize = new Fraction(1,4);
         Fraction unitSize = new Fraction(1,16);
@@ -50,15 +60,33 @@ public class AbstractStaffReaderTest {
         ngr.setTimeSignature(timeSignature);
 
         int numRepeats = 4;
-        while (numRepeats > 0) {
-            ngr.setRudiment(abstractStaff, 0, abstractStaff.Length());
+
+        int index = numRepeats;
+        while (index > 0) {
+            ngr.setRudiment(abstractStaff, 0, abstractStaff.getLength());
             while (!ngr.isFinished()) {
                 AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
                 Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
                 msda.addNotes(chunk.notes, notesDuration, true);
                 System.out.println(chunk.toString());
             }
-            numRepeats--;
+            index--;
+        }
+
+        for (int i = 0; i < 2; i++) {
+            abstractStaff.addNotes(footRhythm, i*8,1,true);
+        }
+
+        index = numRepeats;
+        while (index > 0) {
+            ngr.setRudiment(abstractStaff, 0, abstractStaff.getLength());
+            while (!ngr.isFinished()) {
+                AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
+                Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
+                msda.addNotes(chunk.notes, notesDuration, true);
+                System.out.println(chunk.toString());
+            }
+            index--;
         }
 
         msda.getDocumentCreator().getDocument().compile("music/AbstractStaffReaderTest.mscx");

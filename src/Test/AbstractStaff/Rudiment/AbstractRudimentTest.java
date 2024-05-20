@@ -6,12 +6,18 @@ public class AbstractRudimentTest {
     public static void main(String[] args) {
         AbstractRudimentCreator arc = AbstractRudimentCreator.getInstance();
 
-        arc.logRudiment(arc.create("rest"));
-        arc.logRudiment(arc.create("singlestroke"));
-        arc.logRudiment(arc.create("doublestroke"));
-        arc.logRudiment(arc.create("herta"));
-        arc.logRudiment(arc.create("paradiddle"));
-        arc.logRudiment(arc.create("fivestroke"));
-        arc.logRudiment(arc.create("doubleparadiddle"));
+        String[] rudimentNames = {
+                "Rest",
+                "SingleStroke",
+                "DoubleStroke",
+                "Herta",
+                "Paradiddle",
+                "FiveStroke",
+                "DoubleParadiddle"
+        };
+
+        for (String rudimentName : rudimentNames) {
+            arc.logRudiment(arc.create(rudimentName));
+        }
     }
 }

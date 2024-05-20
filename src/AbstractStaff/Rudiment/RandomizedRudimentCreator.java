@@ -4,7 +4,6 @@ import AbstractStaff.AbstractStaff;
 import MuseScore.Limb;
 import MuseScore.Note.Note;
 import MuseScore.Note.NoteCreator;
-import Test.AbstractStaff.Rudiment.RandomizedRudimentCreatorTest;
 import Util.GlobalRandom;
 
 import java.util.ArrayList;
@@ -37,21 +36,21 @@ public class RandomizedRudimentCreator {
     }
 
     public AbstractStaff<Limb,Note> create(AbstractStaff abstractStaff, boolean avoidSequentialSameLimb) {
-        AbstractStaff<Limb,Note> rudiment = new AbstractStaff(abstractStaff.getName()).increaseToCapacity(abstractStaff.Length());
+        AbstractStaff<Limb,Note> rudiment = new AbstractStaff(abstractStaff.getName()).increaseToLength(abstractStaff.getLength());
 
         for (Object obj : abstractStaff.getNoteNames()) {
             // Choose limb
-            Limb chosenLimb = possibleLimbs.get(GlobalRandom.nextPositiveInt(possibleLimbs.size()));
+            Limb chosenLimb = (Limb)GlobalRandom.nextElement(possibleLimbs);
             while (avoidSequentialSameLimb && chosenLimb.equals(previousLimb))
-                chosenLimb = possibleLimbs.get(GlobalRandom.nextPositiveInt(possibleLimbs.size()));
+                chosenLimb = (Limb)GlobalRandom.nextElement(possibleLimbs);
             previousLimb = chosenLimb;
 
             List<String> possibleNotes = notePossibilitiesPerLimb.get(chosenLimb);
-            String chosenNoteName = possibleNotes.get(GlobalRandom.nextPositiveInt(possibleNotes.size()));
+            String chosenNoteName = (String)GlobalRandom.nextElement(possibleNotes);
             Note chosenNote = NoteCreator.getInstance().create(chosenNoteName);
             chosenNote.setLimb(chosenLimb);
 
-            for (int position = 0; position < abstractStaff.Length(); position++) {
+            for (int position = 0; position < abstractStaff.getLength(); position++) {
                 if (abstractStaff.hasNoteAtPosition(obj, position))
                     rudiment.setNoteAtPosition(chosenLimb, position, chosenNote);
             }

@@ -9,7 +9,6 @@ import CustomMath.Fraction;
 import MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScore.Limb;
 import MuseScore.Note.Note;
-import MuseScore.Note.NoteCreator;
 import Util.GlobalRandom;
 
 import java.util.ArrayList;
@@ -43,16 +42,16 @@ public class RandomizedRudimentCreatorTest {
 
         int numRudiments = 64;
         while (numRudiments > 0) {
-            AbstractStaff<Integer,Boolean> chosenAbstractRudiment = rudiments.get(GlobalRandom.nextPositiveInt(rudiments.size()));
+            AbstractStaff<Integer,Boolean> chosenAbstractRudiment = (AbstractStaff<Integer, Boolean>)GlobalRandom.nextElement(rudiments);
             if (chosenAbstractRudiment.getName().equals("Rest"))
                 rrc.setLastLimb(null);
 
-            List<String> drumsChosen = handNotes.get(GlobalRandom.nextPositiveInt(handNotes.size()));
+            List<String> drumsChosen = (List<String>)GlobalRandom.nextElement(handNotes);
             rrc.setPossibleNotes(Limb.RightArm, drumsChosen);
             rrc.setPossibleNotes(Limb.LeftArm, drumsChosen);
 
             AbstractStaff<Limb,Note> concreteRudiment = rrc.create(chosenAbstractRudiment, true);
-            ngr.setRudiment(concreteRudiment, 0, concreteRudiment.Length());
+            ngr.setRudiment(concreteRudiment, 0, concreteRudiment.getLength());
             while (!ngr.isFinished()) {
                 AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
                 Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);

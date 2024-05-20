@@ -23,26 +23,26 @@ public class AbstractRudimentCreator {
                 return new AbstractStaff<Integer,Boolean>("SingleStroke").setNoteAtPosition(0, 0, true);
             case "doublestroke":
                 return new AbstractStaff<Integer,Boolean>("DoubleStroke")
-                        .increaseToCapacity(2)
+                        .increaseToLength(2)
                         .setNoteAtPosition(0, 0, true)
                         .setNoteAtPosition(0, 1, true);
             case "herta":
                 return new AbstractStaff<Integer,Boolean>("Herta")
-                        .increaseToCapacity(6)
+                        .increaseToLength(6)
                         .setNoteAtPosition(0, 0, true)
                         .setNoteAtPosition(1, 1, true)
                         .setNoteAtPosition(2, 2, true)
                         .setNoteAtPosition(3, 4, true);
             case "paradiddle":
                 return new AbstractStaff<Integer,Boolean>("Paradiddle")
-                        .increaseToCapacity(4)
+                        .increaseToLength(4)
                         .setNoteAtPosition(0, 0, true)
                         .setNoteAtPosition(1, 1, true)
                         .setNoteAtPosition(2, 2, true)
                         .setNoteAtPosition(2, 3, true);
             case "fivestroke":
                 return new AbstractStaff<Integer,Boolean>("FiveStroke")
-                        .increaseToCapacity(5)
+                        .increaseToLength(5)
                         .setNoteAtPosition(0, 0, true)
                         .setNoteAtPosition(0, 1, true)
                         .setNoteAtPosition(1, 2, true)
@@ -50,7 +50,7 @@ public class AbstractRudimentCreator {
                         .setNoteAtPosition(2, 4, true);
             case "doubleparadiddle":
                 return new AbstractStaff<Integer,Boolean>("DoubleParadiddle")
-                        .increaseToCapacity(6)
+                        .increaseToLength(6)
                         .setNoteAtPosition(0, 0, true)
                         .setNoteAtPosition(1, 1, true)
                         .setNoteAtPosition(2, 2, true)
@@ -64,7 +64,7 @@ public class AbstractRudimentCreator {
 
     public void logRudiment(AbstractStaff<Integer,Boolean> abstractRudiment) {
         String toLog = "Abstract Rudiment: { name: " + abstractRudiment.getName() + ", notes: { ";
-        for (int position = 0; position < abstractRudiment.Length(); position++) {
+        for (int position = 0; position < abstractRudiment.getLength(); position++) {
             boolean hasNote = false;
             for (int limbId : abstractRudiment.getNoteNames()) {
                 if (abstractRudiment.hasNoteAtPosition(limbId, position)) {
@@ -76,7 +76,7 @@ public class AbstractRudimentCreator {
                 toLog += "_";
             toLog += ",";
         }
-        toLog += " }}";
+        toLog += " } }";
         System.out.println(toLog);
     }
 

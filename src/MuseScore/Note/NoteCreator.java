@@ -38,6 +38,7 @@ public class NoteCreator {
             case "lowtom":
                 note = new Note("LowTom", 69, 17);
                 break;
+            case "hihatpedal":
             case "hihatclose":
                 note = new Note("HihatClose", 65, 13);
                 note.xmlObject

@@ -16,13 +16,13 @@ public class AbstractStaff<T,S> {
 
     public String getName() { return name; }
 
-    public int Length() {
+    public int getLength() {
         return length;
     }
 
     public AbstractStaff<T,S> setNoteAtPosition(T noteName, int position, S value) {
         if (position+1>length)
-            increaseToCapacity(position+1);
+            increaseToLength(position+1);
         if (!noteToPlacements.containsKey(noteName)) {
             ArrayList<S> notePlacements = new ArrayList<S>(length);
             noteToPlacements.put(noteName, notePlacements);
@@ -33,11 +33,33 @@ public class AbstractStaff<T,S> {
         return this;
     }
 
-    public final AbstractStaff<T,S> increaseToCapacity(int capacity) {
-        for (ArrayList<S> placements : noteToPlacements.values()) {
-            placements.ensureCapacity(capacity);
+    public AbstractStaff<T,S> addNotes(AbstractStaff<T,S> notes, int position, int step, boolean includeNull) {
+        return addNotes(notes, position, 0, notes.getLength(), step, includeNull);
+    }
+
+    public AbstractStaff<T,S> addNotes(AbstractStaff<T,S> notes, int position, int startIndex, int endIndex, int step, boolean includeNull) {
+        increaseToLength(position + step * (endIndex - startIndex));
+        // Loop through provided notes
+        for (int i = startIndex; i < endIndex; i++) {
+            for (T staffLine : notes.getNoteNames()) {
+                S note = notes.getNoteAtPosition(staffLine, i);
+                if (includeNull || note != null)
+                    setNoteAtPosition(staffLine, position, note);
+            }
+            position += step;
         }
-        this.length = capacity;
+        return this;
+    }
+
+    public final AbstractStaff<T,S> increaseToLength(int newLength) {
+        if (length < newLength) {
+            for (ArrayList<S> placements : noteToPlacements.values()) {
+                placements.ensureCapacity(newLength);
+                while (placements.size() < newLength)
+                    placements.add(null);
+            }
+            this.length = newLength;
+        }
         return this;
     }
 

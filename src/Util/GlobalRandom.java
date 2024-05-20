@@ -1,8 +1,9 @@
 package Util;
 
 import java.util.Random;
+import java.util.List;
 
-public class GlobalRandom {
+public class GlobalRandom<T> {
     private static Random instance;
 
     public static Random getInstance() {
@@ -13,5 +14,9 @@ public class GlobalRandom {
 
     public static int nextPositiveInt(int modulo) {
         return (getInstance().nextInt() & Integer.MAX_VALUE) % modulo;
+    }
+
+    public static Object nextElement(List list) {
+        return list.get(nextPositiveInt(list.size()));
     }
 }
