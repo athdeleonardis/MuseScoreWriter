@@ -29,8 +29,8 @@ public class RandomizedRudimentCreatorTest {
         for (String rudimentName : rudimentNames)
             rudiments.add(arc.create(rudimentName));
 
-        List<String> handNotes = Arrays.asList(new String[]{ "Snare", "HighTom", "MidTom", "LowTom" });
-        ListRandom<String> handNotesRandom = new ListRandom()
+        List<String> handNotes = Arrays.asList("Snare", "HighTom", "MidTom", "LowTom");
+        ListRandom handNotesRandom = new ListRandom()
                 .setProportion(1, 0.9f)
                 .setProportion(4,0.1f);
 
@@ -39,6 +39,7 @@ public class RandomizedRudimentCreatorTest {
 
         Fraction unitSize = new Fraction(1,16);
 
+        AbstractStaff<Limb,Note> allNotes = new AbstractStaff<Limb, Note>("RandomizedRudimentCreatorTest");
         int numRudiments = 64;
         while (numRudiments > 0) {
             AbstractStaff<Integer,Boolean> chosenAbstractRudiment = (AbstractStaff<Integer, Boolean>)GlobalRandom.nextElement(rudiments);
@@ -50,14 +51,17 @@ public class RandomizedRudimentCreatorTest {
             rrc.setPossibleNotes(Limb.LeftArm, drumsChosen);
 
             AbstractStaff<Limb,Note> concreteRudiment = rrc.create(chosenAbstractRudiment, true);
-            ngr.setRudiment(concreteRudiment, 0, concreteRudiment.getLength());
-            while (!ngr.isFinished()) {
-                AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
-                Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
-                msda.addNotes(chunk.notes, notesDuration, true);
-            }
+
+            allNotes.addNotes(concreteRudiment, allNotes.getLength(), 1, false);
 
             numRudiments--;
+        }
+
+        ngr.setRudiment(allNotes, 0, allNotes.getLength());
+        while (!ngr.isFinished()) {
+            AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
+            Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
+            msda.addNotes(chunk.notes, notesDuration, true);
         }
 
         msda.getDocumentCreator().getDocument().compile("music/RandomizedRudimentCreatorTest.mscx");
