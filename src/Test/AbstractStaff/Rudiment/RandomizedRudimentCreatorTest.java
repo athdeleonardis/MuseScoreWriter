@@ -10,6 +10,7 @@ import MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScore.Limb;
 import MuseScore.Note.Note;
 import Util.GlobalRandom;
+import Util.ListRandom;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,12 +29,10 @@ public class RandomizedRudimentCreatorTest {
         for (String rudimentName : rudimentNames)
             rudiments.add(arc.create(rudimentName));
 
-        List<List<String>> handNotes = new ArrayList();
-        handNotes.add(Arrays.asList(new String[]{ "Snare" }));
-        handNotes.add(Arrays.asList(new String[]{ "HighTom" }));
-        handNotes.add(Arrays.asList(new String[]{ "HighTom" }));
-        handNotes.add(Arrays.asList(new String[]{ "LowTom" }));
-        handNotes.add(Arrays.asList(new String[]{ "Snare", "HighTom", "MidTom", "LowTom" }));
+        List<String> handNotes = Arrays.asList(new String[]{ "Snare", "HighTom", "MidTom", "LowTom" });
+        ListRandom<String> handNotesRandom = new ListRandom()
+                .setProportion(1, 0.9f)
+                .setProportion(4,0.1f);
 
         List<Limb> limbPossibilities = Arrays.asList(new Limb[]{ Limb.RightArm, Limb.LeftArm });
         rrc.setPossibleLimbs(limbPossibilities);
@@ -46,7 +45,7 @@ public class RandomizedRudimentCreatorTest {
             if (chosenAbstractRudiment.getName().equals("Rest"))
                 rrc.setLastLimb(null);
 
-            List<String> drumsChosen = (List<String>)GlobalRandom.nextElement(handNotes);
+            List<String> drumsChosen = handNotesRandom.randomList(handNotes);
             rrc.setPossibleNotes(Limb.RightArm, drumsChosen);
             rrc.setPossibleNotes(Limb.LeftArm, drumsChosen);
 
