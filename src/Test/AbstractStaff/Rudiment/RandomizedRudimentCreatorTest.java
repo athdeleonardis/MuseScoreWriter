@@ -60,7 +60,8 @@ public class RandomizedRudimentCreatorTest {
         ngr.setRudiment(allNotes, 0, allNotes.getLength());
         while (!ngr.isFinished()) {
             AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
-            Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
+            Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length).simplify();
+            System.out.println(chunk.toString());
             msda.addNotes(chunk.notes, notesDuration, true);
         }
 
