@@ -40,13 +40,13 @@ public class RandomizedRudimentCreator {
 
         for (Object obj : abstractStaff.getNoteNames()) {
             // Choose limb
-            Limb chosenLimb = (Limb)GlobalRandom.nextElement(possibleLimbs);
+            Limb chosenLimb = GlobalRandom.nextElement(possibleLimbs);
             while (avoidSequentialSameLimb && chosenLimb.equals(previousLimb))
-                chosenLimb = (Limb)GlobalRandom.nextElement(possibleLimbs);
+                chosenLimb = GlobalRandom.nextElement(possibleLimbs);
             previousLimb = chosenLimb;
 
             List<String> possibleNotes = notePossibilitiesPerLimb.get(chosenLimb);
-            String chosenNoteName = (String)GlobalRandom.nextElement(possibleNotes);
+            String chosenNoteName = GlobalRandom.nextElement(possibleNotes);
             Note chosenNote = NoteCreator.getInstance().create(chosenNoteName);
             chosenNote.setLimb(chosenLimb);
 

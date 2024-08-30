@@ -1,7 +1,7 @@
 package Test.MuseScore.Document;
 
 import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.AbstractStaffReader.AbstractStaffChordReader;
+import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
 import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;

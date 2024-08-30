@@ -1,4 +1,4 @@
-package MuseScoreWriter.AbstractStaff.AbstractStaffReader;
+package MuseScoreWriter.AbstractStaff.AbstractStaffChordReader;
 
 import MuseScoreWriter.AbstractStaff.AbstractStaff;
 import MuseScoreWriter.CustomMath.Fraction;
@@ -46,7 +46,7 @@ public class AbstractStaffChordReader<T> {
 
         readPosition += len;
 
-        return new Chord(notes, new Fraction(unit).multiply(len));
+        return new Chord(notes, new Fraction(unit).multiply(len).simplify());
     }
 
     public boolean isFinished() { return readPosition == endPosition; }

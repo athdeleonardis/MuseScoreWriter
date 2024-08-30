@@ -93,4 +93,21 @@ public class AbstractStaff<T,S> {
     public String toString() {
         return this.name;
     }
+
+    public String noteString() {
+        StringBuilder str = new StringBuilder("{ ");
+        for (int i = 0; i < length; i++) {
+            str.append("{ ");
+            for (T noteName : getNoteNames()) {
+                S note = getNoteAtPosition(noteName, i);
+                if (note != null) {
+                    str.append(note.toString());
+                    str.append(", ");
+                }
+            }
+            str.append("}, ");
+        }
+        str.append("}");
+        return str.toString();
+    }
 }

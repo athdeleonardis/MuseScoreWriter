@@ -16,7 +16,7 @@ public class GlobalRandom<T> {
         return (getInstance().nextInt() & Integer.MAX_VALUE) % modulo;
     }
 
-    public static Object nextElement(List list) {
+    public static <T> T nextElement(List<T> list) {
         return list.get(nextPositiveInt(list.size()));
     }
 }

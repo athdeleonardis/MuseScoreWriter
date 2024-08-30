@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class ListRandom<T> {
+public class ListRandom {
     // Warning: Shuffles the supplied list in place
-    public static List randomList(List list, int size) {
+    public static <T> List<T> randomList(List<T> list, int size) {
         Collections.shuffle(list);
-        List returnList = new ArrayList(size);
+        List<T> returnList = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             returnList.add(list.get(i));
         }
