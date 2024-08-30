@@ -39,9 +39,9 @@ public class MeasureContextTest {
         AbstractStaffChordReader<Limb> chordReader = new AbstractStaffChordReader<>();
 
         RandomProportionChooser<Integer> tupletChooser = new RandomProportionChooser<Integer>()
-                .setProportion(3,1)
-                .setProportion(4,1)
-                .setProportion(5,1);
+                .setProportion(1, 3)
+                .setProportion(1, 4)
+                .setProportion(1, 5);
 
         AbstractStaff<Limb, Note> rudiment;
         Fraction unit = new Fraction(1,16);

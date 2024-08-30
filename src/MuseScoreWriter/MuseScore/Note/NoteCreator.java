@@ -21,11 +21,16 @@ public class NoteCreator {
                         .addChild("head", "cross")
                         .addChild("dead", "1");
                 break;
-            case "snare":
-                note = new Note("Snare", 72, 14);
+            case "ride":
+                note = new Note("Ride", 77, 13);
+                note.xmlObject
+                        .addChild("head", "cross")
+                        .addChild("dead", "1");
                 break;
-            case "kick":
-                note = new Note("Kick", 65, 13);
+            case "ridebell":
+                note = new Note("RideBell", 77, 13);
+                note.xmlObject
+                        .addChild("head", "triangle-up");
                 break;
             case "hightom":
                 note = new Note("HighTom", 76, 18);
@@ -33,8 +38,19 @@ public class NoteCreator {
             case "midtom":
                 note = new Note("MidTom", 74, 16);
                 break;
+            case "snare":
+                note = new Note("Snare", 72, 14);
+                break;
+            case "crossstick":
+                note = new Note("CrossStick", 72, 14);
+                note.xmlObject
+                        .addChild("head", "heavy-cross");
+                break;
             case "lowtom":
                 note = new Note("LowTom", 69, 17);
+                break;
+            case "kick":
+                note = new Note("Kick", 65, 13);
                 break;
             case "hihatpedal":
             case "hihatclose":

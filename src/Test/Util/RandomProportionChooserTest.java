@@ -11,7 +11,7 @@ public class RandomProportionChooserTest {
         HashMap<Integer,Integer> counts = new HashMap<>();
         int numbersToChooseFrom = GlobalRandom.nextPositiveInt(20);
         for (int i = 0; i < numbersToChooseFrom; i++) {
-            randomProportionChooser.setProportion(i, GlobalRandom.getInstance().nextFloat());
+            randomProportionChooser.setProportion(GlobalRandom.getInstance().nextFloat(), i);
             counts.put(i,0);
         }
 

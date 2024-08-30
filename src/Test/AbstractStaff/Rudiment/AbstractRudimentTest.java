@@ -1,5 +1,6 @@
 package Test.AbstractStaff.Rudiment;
 
+import MuseScoreWriter.AbstractStaff.AbstractStaff;
 import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 
 public class AbstractRudimentTest {
@@ -17,7 +18,20 @@ public class AbstractRudimentTest {
         };
 
         for (String rudimentName : rudimentNames) {
-            arc.logRudiment(arc.create(rudimentName));
+            AbstractStaff<Integer,Boolean> rudiment = arc.create(rudimentName);
+            arc.logRudiment(rudiment);
+        }
+
+        String[] rudimentLinearPatterns = {
+                "abxabxab",
+                "axxaxxax",
+                "xxxxxxxx",
+                "abxcdxef"
+        };
+
+        for (String linearPattern : rudimentLinearPatterns) {
+            AbstractStaff<Integer,Boolean> rudiment = AbstractRudimentCreator.fromLinearPatternString(linearPattern, linearPattern);
+            arc.logRudiment(rudiment);
         }
     }
 }

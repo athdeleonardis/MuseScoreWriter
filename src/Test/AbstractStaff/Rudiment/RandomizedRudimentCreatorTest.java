@@ -28,9 +28,9 @@ public class RandomizedRudimentCreatorTest {
         List<String> handNotes = Arrays.asList("Snare", "HighTom", "MidTom", "LowTom");
         RandomProportionChooser<Integer> numDrumsChooser = new RandomProportionChooser<Integer>()
                 .setProportion(1, 1)
-                .setProportion(2, 1)
-                .setProportion(3,1)
-                .setProportion(4,1);
+                .setProportion(1, 2)
+                .setProportion(1, 3)
+                .setProportion(1, 4);
 
         // Limbs
         List<Limb> limbPossibilities = Arrays.asList(Limb.RightArm, Limb.LeftArm);

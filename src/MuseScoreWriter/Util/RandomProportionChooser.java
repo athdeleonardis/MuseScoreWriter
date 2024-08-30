@@ -12,7 +12,7 @@ public class RandomProportionChooser<T> {
         total = 0;
     }
 
-    public RandomProportionChooser<T> setProportion(T item, float proportion) {
+    public RandomProportionChooser<T> setProportion(float proportion, T item) {
         if (proportions.containsKey(item)) {
             total -= proportions.get(item);
         }

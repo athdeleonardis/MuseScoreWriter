@@ -2,6 +2,9 @@ package MuseScoreWriter.AbstractStaff.Rudiment;
 
 import MuseScoreWriter.AbstractStaff.AbstractStaff;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class AbstractRudimentCreator {
     private static AbstractRudimentCreator instance;
 
@@ -60,6 +63,25 @@ public class AbstractRudimentCreator {
             default:
                 return null;
         }
+    }
+
+    // Unique characters are given unique numbers
+    // Character x represents a rest
+    public static AbstractStaff<Integer,Boolean> fromLinearPatternString(String name, String pattern) {
+        AbstractStaff<Integer,Boolean> abstractStaff = new AbstractStaff<Integer,Boolean>(name).increaseToLength(pattern.length());
+        Map<Character,Integer> characterMap = new TreeMap<>();
+        int currentInt = 0;
+        int index = -1;
+        for (Character c : pattern.toCharArray()) {
+            index++;
+            if (c == 'x')
+                continue;
+            if (!characterMap.containsKey(c))
+                characterMap.put(c, currentInt++);
+            int intMappedTo = characterMap.get(c);
+            abstractStaff.setNoteAtPosition(intMappedTo, index, true);
+        }
+        return abstractStaff;
     }
 
     public void logRudiment(AbstractStaff<Integer,Boolean> abstractRudiment) {
