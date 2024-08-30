@@ -1,18 +1,19 @@
 package Test.MuseScore.Document;
 
-import CustomMath.Fraction;
-import MuseScore.Document.MuseScoreDocumentAppender;
-import MuseScore.Document.MuseScoreDocumentCreator;
-import MuseScore.Limb;
-import MuseScore.Note.Note;
-import MuseScore.Note.NoteCreator;
+import MuseScoreWriter.CustomMath.Fraction;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
+import MuseScoreWriter.MuseScore.Limb;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.MuseScore.Note.NoteCreator;
 
 import java.util.ArrayList;
 
 public class MuseScoreDocumentTest {
     public static void main(String[] args) {
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender("MuseScoreDocumentAppender Test", "Subtitle", "Composer");
-        msda.setTimeSignature(15, 16);
+        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator("MuseScoreDocumentAppender Test", "Subtitle", "Composer");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        msda.addTimeSignature(new Fraction(15,16));
 
         NoteCreator nc = NoteCreator.getInstance();
         Note kickNote = nc.create("Kick");

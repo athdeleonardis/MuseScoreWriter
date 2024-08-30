@@ -1,6 +1,6 @@
 package Test.AbstractStaff.Rudiment;
 
-import AbstractStaff.Rudiment.AbstractRudimentCreator;
+import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 
 public class AbstractRudimentTest {
     public static void main(String[] args) {

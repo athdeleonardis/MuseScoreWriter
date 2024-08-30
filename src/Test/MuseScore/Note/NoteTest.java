@@ -1,8 +1,8 @@
 package Test.MuseScore.Note;
 
-import MuseScore.Note.Note;
-import MuseScore.Note.NoteCreator;
-import XML.XMLObject;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.MuseScore.Note.NoteCreator;
+import MuseScoreWriter.XML.XMLObject;
 
 public class NoteTest {
     public static void main(String[] args) {

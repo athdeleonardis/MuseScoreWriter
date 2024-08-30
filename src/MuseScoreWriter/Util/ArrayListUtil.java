@@ -1,6 +1,5 @@
-package Util;
+package MuseScoreWriter.Util;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ArrayListUtil {
     public static void rotateArrayList(ArrayList arr, int amount) {

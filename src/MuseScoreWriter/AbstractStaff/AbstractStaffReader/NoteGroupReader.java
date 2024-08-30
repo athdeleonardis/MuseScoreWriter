@@ -1,7 +1,7 @@
-package AbstractStaff.AbstractStaffReader;
+package MuseScoreWriter.AbstractStaff.AbstractStaffReader;
 
-import AbstractStaff.AbstractStaff;
-import CustomMath.Fraction;
+import MuseScoreWriter.AbstractStaff.AbstractStaff;
+import MuseScoreWriter.CustomMath.Fraction;
 import java.lang.Math;
 
 // Used to read an abstract staff up to some maximum Fraction group size.

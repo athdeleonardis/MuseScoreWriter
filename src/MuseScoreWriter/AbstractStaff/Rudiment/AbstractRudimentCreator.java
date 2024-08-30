@@ -1,6 +1,6 @@
-package AbstractStaff.Rudiment;
+package MuseScoreWriter.AbstractStaff.Rudiment;
 
-import AbstractStaff.AbstractStaff;
+import MuseScoreWriter.AbstractStaff.AbstractStaff;
 
 public class AbstractRudimentCreator {
     private static AbstractRudimentCreator instance;

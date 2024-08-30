@@ -1,7 +1,6 @@
-package Util;
+package MuseScoreWriter.Util;
 
 import java.util.HashMap;
-import java.util.Random;
 
 // For choosing items with a probability proportional to their set proportion.
 public class RandomProportionChooser<T> {

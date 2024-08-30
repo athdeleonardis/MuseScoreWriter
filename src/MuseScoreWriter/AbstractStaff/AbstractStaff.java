@@ -1,8 +1,8 @@
-package AbstractStaff;
+package MuseScoreWriter.AbstractStaff;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Collection;
-import Util.ArrayListUtil;
+import MuseScoreWriter.Util.ArrayListUtil;
 
 public class AbstractStaff<T,S> {
     private String name;

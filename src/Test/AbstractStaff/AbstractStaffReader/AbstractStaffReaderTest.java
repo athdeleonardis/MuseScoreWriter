@@ -1,17 +1,19 @@
 package Test.AbstractStaff.AbstractStaffReader;
 
-import AbstractStaff.AbstractStaff;
-import AbstractStaff.AbstractStaffReader.AbstractStaffChunk;
-import AbstractStaff.AbstractStaffReader.NoteGroupReader;
-import CustomMath.Fraction;
-import MuseScore.Document.MuseScoreDocumentAppender;
-import MuseScore.Limb;
-import MuseScore.Note.Note;
-import MuseScore.Note.NoteCreator;
+import MuseScoreWriter.AbstractStaff.AbstractStaff;
+import MuseScoreWriter.AbstractStaff.AbstractStaffReader.AbstractStaffChunk;
+import MuseScoreWriter.AbstractStaff.AbstractStaffReader.NoteGroupReader;
+import MuseScoreWriter.CustomMath.Fraction;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
+import MuseScoreWriter.MuseScore.Limb;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.MuseScore.Note.NoteCreator;
 
 public class AbstractStaffReaderTest {
     public static void main(String[] args) {
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender("AbstractStaffReaderTest", "Subtitle", "Composer");
+        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator("AbstractStaffReaderTest", "Subtitle", "Composer");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
         NoteGroupReader ngr = new NoteGroupReader();
 
         NoteCreator nc = NoteCreator.getInstance();
@@ -54,8 +56,6 @@ public class AbstractStaffReaderTest {
         Fraction maxGroupSize = new Fraction(1,4);
         Fraction unitSize = new Fraction(1,16);
 
-        msda.setTimeSignature(timeSignature.getNumerator(), timeSignature.getDenominator());
-
         ngr.setGroupSize(maxGroupSize);
         ngr.setTimeSignature(timeSignature);
 
@@ -64,7 +64,12 @@ public class AbstractStaffReaderTest {
         int index = numRepeats;
         while (index > 0) {
             ngr.setRudiment(abstractStaff, 0, abstractStaff.getLength());
-            while (!ngr.isFinished()) {
+            while (!ngr.rudimentIsFinished()) {
+                if (ngr.measureIsFinished()) {
+                    msda.newMeasure();
+
+
+                }
                 AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
                 Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
                 msda.addNotes(chunk.notes, notesDuration, true);
@@ -80,7 +85,7 @@ public class AbstractStaffReaderTest {
         index = numRepeats;
         while (index > 0) {
             ngr.setRudiment(abstractStaff, 0, abstractStaff.getLength());
-            while (!ngr.isFinished()) {
+            while (!ngr.rudimentIsFinished()) {
                 AbstractStaffChunk<Note> chunk = ngr.readChunk(unitSize);
                 Fraction notesDuration = new Fraction(unitSize).multiply(chunk.length);
                 msda.addNotes(chunk.notes, notesDuration, true);

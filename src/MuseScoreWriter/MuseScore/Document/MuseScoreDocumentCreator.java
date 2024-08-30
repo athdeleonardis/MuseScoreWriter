@@ -1,7 +1,7 @@
-package MuseScore.Document;
+package MuseScoreWriter.MuseScore.Document;
 
-import CustomMath.Fraction;
-import XML.XMLObject;
+import MuseScoreWriter.CustomMath.Fraction;
+import MuseScoreWriter.XML.XMLObject;
 
 public class MuseScoreDocumentCreator {
     private String title;
@@ -215,7 +215,7 @@ public class MuseScoreDocumentCreator {
     // Quintuplets over a dotted quaver, 3/16/5 = 3/80 (~1/26.6), visually become semi-quavers, 1/16
     public static int nextHigherDurationType(Fraction duration) {
         int flooredReciprocal = new Fraction(duration).reciprocate().quotient();
-        int durationType = CustomMath.Integer.pow2(CustomMath.Integer.log2(flooredReciprocal));
+        int durationType = MuseScoreWriter.CustomMath.Integer.pow2(MuseScoreWriter.CustomMath.Integer.log2(flooredReciprocal));
         return durationType;
     }
 }

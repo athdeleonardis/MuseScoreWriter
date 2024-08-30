@@ -1,6 +1,6 @@
 package Test.XML;
 
-import XML.XMLObject;
+import MuseScoreWriter.XML.XMLObject;
 
 public class XMLObjectTest {
     public static void main(String[] args) {

@@ -1,13 +1,9 @@
 package Test.Util;
 
-import Util.GlobalRandom;
-import Util.ListRandom;
-import Util.RandomProportionChooser;
+import MuseScoreWriter.Util.GlobalRandom;
+import MuseScoreWriter.Util.RandomProportionChooser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class RandomProportionChooserTest {
     public static void main(String[] args) {

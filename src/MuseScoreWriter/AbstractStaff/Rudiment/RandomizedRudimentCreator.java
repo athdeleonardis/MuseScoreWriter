@@ -1,10 +1,10 @@
-package AbstractStaff.Rudiment;
+package MuseScoreWriter.AbstractStaff.Rudiment;
 
-import AbstractStaff.AbstractStaff;
-import MuseScore.Limb;
-import MuseScore.Note.Note;
-import MuseScore.Note.NoteCreator;
-import Util.GlobalRandom;
+import MuseScoreWriter.AbstractStaff.AbstractStaff;
+import MuseScoreWriter.MuseScore.Limb;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.MuseScore.Note.NoteCreator;
+import MuseScoreWriter.Util.GlobalRandom;
 
 import java.util.ArrayList;
 import java.util.HashMap;

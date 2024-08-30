@@ -1,4 +1,4 @@
-package CustomMath;
+package MuseScoreWriter.CustomMath;
 
 public class Integer {
     // Calculate the greatest common denominator of two integers

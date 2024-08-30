@@ -1,7 +1,7 @@
-package MuseScore.Note;
+package MuseScoreWriter.MuseScore.Note;
 
-import MuseScore.Limb;
-import XML.XMLObject;
+import MuseScoreWriter.MuseScore.Limb;
+import MuseScoreWriter.XML.XMLObject;
 
 public class Note implements Comparable {
     public String name;

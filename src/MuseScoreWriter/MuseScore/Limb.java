@@ -1,4 +1,4 @@
-package MuseScore;
+package MuseScoreWriter.MuseScore;
 
 public enum Limb {
     LeftLeg,

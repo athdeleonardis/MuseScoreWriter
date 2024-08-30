@@ -1,6 +1,6 @@
-package AbstractStaff.AbstractStaffReader;
+package MuseScoreWriter.AbstractStaff.AbstractStaffReader;
 
-import AbstractStaff.AbstractStaff;
+import MuseScoreWriter.AbstractStaff.AbstractStaff;
 
 import java.util.ArrayList;
 

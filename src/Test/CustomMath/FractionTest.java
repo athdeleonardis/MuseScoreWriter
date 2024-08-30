@@ -1,6 +1,6 @@
 package Test.CustomMath;
 
-import CustomMath.Fraction;
+import MuseScoreWriter.CustomMath.Fraction;
 
 public class FractionTest {
     public static void main(String[] args) {

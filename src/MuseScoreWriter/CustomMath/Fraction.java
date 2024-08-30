@@ -1,6 +1,6 @@
-package CustomMath;
+package MuseScoreWriter.CustomMath;
 
-import static CustomMath.Integer.gcd;
+import static MuseScoreWriter.CustomMath.Integer.gcd;
 
 public class Fraction extends Object implements Comparable<Fraction> {
     private int numerator;

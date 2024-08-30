@@ -1,6 +1,4 @@
-package MuseScore.Note;
-
-import XML.XMLObject;
+package MuseScoreWriter.MuseScore.Note;
 
 public class NoteCreator {
     private static NoteCreator instance;

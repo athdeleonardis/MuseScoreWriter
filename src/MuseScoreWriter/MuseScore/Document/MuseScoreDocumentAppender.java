@@ -1,9 +1,9 @@
-package MuseScore.Document;
+package MuseScoreWriter.MuseScore.Document;
 
-import CustomMath.Fraction;
-import MuseScore.Limb;
-import MuseScore.Note.Note;
-import XML.XMLObject;
+import MuseScoreWriter.CustomMath.Fraction;
+import MuseScoreWriter.MuseScore.Limb;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.XML.XMLObject;
 
 import java.util.ArrayList;
 import java.util.Collections;

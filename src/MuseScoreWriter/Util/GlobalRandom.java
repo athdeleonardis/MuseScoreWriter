@@ -1,4 +1,4 @@
-package Util;
+package MuseScoreWriter.Util;
 
 import java.util.Random;
 import java.util.List;
