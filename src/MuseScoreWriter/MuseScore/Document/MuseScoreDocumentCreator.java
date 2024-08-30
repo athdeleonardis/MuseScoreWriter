@@ -1,5 +1,6 @@
 package MuseScore.Document;
 
+import CustomMath.Fraction;
 import XML.XMLObject;
 
 public class MuseScoreDocumentCreator {
@@ -164,5 +165,57 @@ public class MuseScoreDocumentCreator {
             case 64: return "64th";
             default: return null;
         }
+    }
+
+    // Okay for non-nested tuplets
+    public static XMLObject createTupletStart(int numNotesInTuple, Fraction duration) {
+        duration = new Fraction(duration).simplify();
+        System.out.println("Tuple duration: "+ duration);
+        Fraction tupleUnitDuration = new Fraction(duration).divide(numNotesInTuple).simplify(); // Length of a single unit note in the tuple
+        System.out.println("Tuple unit duration: " + tupleUnitDuration);
+
+        int baseNote = nextHigherDurationType(tupleUnitDuration);
+        System.out.println("Base note int: " + baseNote);
+        int normalNotes = duration.multiply(baseNote).simplify().quotient(); // Should evenly divide
+        int actualNotes = numNotesInTuple;
+
+        return createTupletStart(normalNotes, actualNotes, baseNote);
+    }
+
+    public static XMLObject createTupletStart(int normalNotes, int actualNotes, int baseNote) {
+        boolean requiresRatio = getDurationType(normalNotes) == null;
+
+        XMLObject tupleStart = new XMLObject("Tuplet")
+                .addChild("normalNotes", ""+normalNotes)
+                .addChild("actualNotes", ""+actualNotes)
+                .addChild("baseNote", getDurationType(baseNote));
+
+        tupleStart.addChild(
+                new XMLObject("Number")
+                        .addChild("style", "tuplet")
+                        .addChild("text", ""+actualNotes + ((requiresRatio) ? ":"+normalNotes : ""))
+        );
+
+        tupleStart.addChild("direction", "up");
+
+        if (requiresRatio)
+            tupleStart.addChild("numberType", "1");
+
+        tupleStart.addChild("bracketType", "1");
+
+        return tupleStart;
+    }
+
+    public static XMLObject createTupletEnd() {
+        return new XMLObject("endTuplet");
+    }
+
+    // E.g. Triplets over a crotchet, 1/12, visually become quavers, 1/8
+    // Quintuplets over a crotchet, 1/20, visually become semi-quavers, 1/16
+    // Quintuplets over a dotted quaver, 3/16/5 = 3/80 (~1/26.6), visually become semi-quavers, 1/16
+    public static int nextHigherDurationType(Fraction duration) {
+        int flooredReciprocal = new Fraction(duration).reciprocate().quotient();
+        int durationType = CustomMath.Integer.pow2(CustomMath.Integer.log2(flooredReciprocal));
+        return durationType;
     }
 }

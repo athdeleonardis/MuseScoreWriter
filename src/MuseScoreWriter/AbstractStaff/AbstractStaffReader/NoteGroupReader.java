@@ -43,13 +43,11 @@ public class NoteGroupReader<T,S> {
     // Each position in the rudiment is treated as if it were unitSize
     // There might be issues if the unit size is greter than the amount of rudiment or group remaining, untested
     public AbstractStaffChunk<S> readChunk(Fraction unitSize) {
-        if (measureRemaining.isZero()) {
+        if (measureRemaining.isZero())
             measureRemaining = new Fraction(timeSignature).simplify();
-        }
 
-        if (groupRemaining.isZero()) {
+        if (groupRemaining.isZero())
             groupRemaining = new Fraction(maxGroupSize.min(measureRemaining));
-        }
 
         int maxReadSize = Math.min(rudimentRemaining, (int)(new Fraction(groupRemaining).divide(unitSize).getValue()));
         AbstractStaffChunk<S> chunk = rudimentReader.readNoteValues(maxReadSize);
@@ -62,8 +60,9 @@ public class NoteGroupReader<T,S> {
         return chunk;
     }
 
-    // Tells when the current AbstractStaffReader has finished.
-    public boolean isFinished() {
+    public boolean rudimentIsFinished() {
         return rudimentRemaining == 0;
     }
+    public boolean measureIsFinished() { return measureRemaining.isZero(); }
+    public boolean groupIsFinished() { return groupRemaining.isZero(); }
 }

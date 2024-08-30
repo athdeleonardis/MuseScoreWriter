@@ -2,7 +2,7 @@ package CustomMath;
 
 import static CustomMath.Integer.gcd;
 
-public class Fraction {
+public class Fraction extends Object implements Comparable<Fraction> {
     private int numerator;
     private int denominator;
 
@@ -31,6 +31,12 @@ public class Fraction {
 
     public Fraction subtract(Fraction other) {
         this.numerator = this.numerator * other.denominator - other.numerator * this.denominator;
+        this.denominator = this.denominator * other.denominator;
+        return this;
+    }
+
+    public Fraction add(Fraction other) {
+        this.numerator = this.numerator * other.denominator + other.numerator * this.denominator;
         this.denominator = this.denominator * other.denominator;
         return this;
     }
@@ -68,13 +74,42 @@ public class Fraction {
         return this;
     }
 
+    public Fraction multiply(Fraction other) {
+        this.numerator *= other.numerator;
+        this.denominator *= other.denominator;
+        return this;
+    }
+
     public Fraction divide(Fraction other) {
         this.numerator *= other.getDenominator();
         this.denominator *= other.getNumerator();
         return this;
     }
 
+    public Fraction divide(int divisor) {
+        this.denominator *= divisor;
+        return this;
+    }
+
     public float getValue() {
         return (float) this.numerator / this.denominator;
+    }
+
+    public Fraction reciprocate() {
+        int temp = this.numerator;
+        this.numerator = this.denominator;
+        this.denominator = temp;
+        return this;
+    }
+
+    public int quotient() { return this.numerator / this.denominator; }
+
+    @Override
+    public int compareTo(Fraction o) {
+        return this.subtract(o).getNumerator();
+    }
+
+    public static Fraction zero() {
+        return new Fraction(0, 1);
     }
 }
