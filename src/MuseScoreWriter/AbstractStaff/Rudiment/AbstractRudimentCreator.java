@@ -1,7 +1,11 @@
 package MuseScoreWriter.AbstractStaff.Rudiment;
 
 import MuseScoreWriter.AbstractStaff.AbstractStaff;
+import MuseScoreWriter.MuseScore.Limb;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.MuseScore.Note.NoteCreator;
 
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -83,6 +87,24 @@ public class AbstractRudimentCreator {
         }
         return abstractStaff;
     }
+
+    public static AbstractStaff<Limb, Note> ostinatoFromLinearPatternString(String name, Limb limb, String pattern, List<String> noteNames) {
+        AbstractStaff<Limb,Note> ostinato = new AbstractStaff<Limb,Note>(name).increaseToLength(pattern.length());
+        Map<Character,String> characterMap = new TreeMap<>();
+        int currentInt = 0;
+        int index = -1;
+        for (Character c : pattern.toCharArray()) {
+            index++;
+            if (c == 'x')
+                continue;
+            if (!characterMap.containsKey(c))
+                characterMap.put(c, noteNames.get(currentInt++));
+            String noteMappedTo = characterMap.get(c);
+            ostinato.setNoteAtPosition(limb, index, NoteCreator.getInstance().create(noteMappedTo));
+        }
+        return ostinato;
+    }
+
 
     public void logRudiment(AbstractStaff<Integer,Boolean> abstractRudiment) {
         String toLog = "Abstract Rudiment: { name: " + abstractRudiment.getName() + ", notes: { ";

@@ -65,8 +65,8 @@ public class Fraction extends Object implements Comparable<Fraction> {
         return this.numerator == other.getNumerator() && this.denominator == other.getDenominator();
     }
 
-    public Fraction min(Fraction other) {
-        return (this.numerator * other.getDenominator() < other.getNumerator() * this.denominator) ? this : other;
+    public static Fraction min(Fraction a, Fraction b) {
+        return (a.numerator * b.getDenominator() < b.getNumerator() * a.denominator) ? a : b;
     }
 
     public Fraction multiply(int multiplier) {
@@ -111,5 +111,10 @@ public class Fraction extends Object implements Comparable<Fraction> {
 
     public static Fraction zero() {
         return new Fraction(0, 1);
+    }
+
+    public static Fraction parseFraction(String str) {
+        String[] nums = str.split("/");
+        return new Fraction(java.lang.Integer.parseInt(nums[0]), java.lang.Integer.parseInt(nums[1]));
     }
 }

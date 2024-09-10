@@ -72,7 +72,7 @@ public class MeasureContext {
     }
 
     public void newGroup() {
-        fractionStack.push(new Fraction(groupSize));
+        fractionStack.push(Fraction.min(groupSize, fractionStack.peek()));
     }
 
     public void newTuplet(int numNotesInTuplet, Fraction duration) {

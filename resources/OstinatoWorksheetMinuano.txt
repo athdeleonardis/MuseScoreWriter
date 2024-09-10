@@ -1,0 +1,18 @@
+-t Minuano
+-ts 6/8
+-g 3/8
+
+-o RightHand Ride OxOOOxOxOOOx
+-o RightHand Ride OxOOOxOOOxOO
+-o RightHand Ride OxOOOxOOOxOO
+-o RightHand Ride OOOxOOOxOOOx
+-o RightHand Ride OxOOOxOOOxOO
+
+-o LeftHand CrossStick OxxOxxOxxOxx
+-o LeftHand CrossStick OxxOxxOxOxOx
+-o LeftHand CrossStick xOxxOxxOxxOx
+-o LeftHand CrossStick OxxOxxOxOxOx
+
+-o LeftFoot HihatClose OxxxOxxxOxxx
+-o LeftFoot HihatClose xxOxxxOxxxOx
+-o LeftFoot HihatClose xxOxxxxxOxxx

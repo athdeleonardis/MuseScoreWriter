@@ -46,6 +46,7 @@ public class NoteCreator {
                 note.xmlObject
                         .addChild("head", "heavy-cross");
                 break;
+            case "floortom":
             case "lowtom":
                 note = new Note("LowTom", 69, 17);
                 break;
@@ -54,7 +55,7 @@ public class NoteCreator {
                 break;
             case "hihatpedal":
             case "hihatclose":
-                note = new Note("HihatClose", 65, 13);
+                note = new Note("HihatClose", 62, 16);
                 note.xmlObject
                         .addChild("head", "cross")
                         .addChild("dead", "1");
