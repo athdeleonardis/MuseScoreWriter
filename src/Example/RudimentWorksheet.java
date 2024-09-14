@@ -6,6 +6,7 @@ import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
@@ -48,8 +49,8 @@ public class RudimentWorksheet {
         ArgResult argResult = new ArgResult();
         parseArgs(args, argResult);
 
-        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator(argResult.title, "Rudiment Worksheet", "Andrew De Leonardis");
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        MuseScoreDocument msd = MuseScoreDocumentCreator.create(argResult.title, "Rudiment Worksheet", "Andrew De Leonardis");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocument(msd);
         FractionStack fractionStack = new FractionStack();
         MeasureContext measureContext = new MeasureContext();
         measureContext.setDocumentAppender(msda);
@@ -82,7 +83,7 @@ public class RudimentWorksheet {
             }
         }
 
-        msdc.getDocument().compile("music/" + argResult.title + ".mscx");
+        msd.getDocumentXML().compile("music/" + argResult.title + ".mscx");
     }
 
     public static void parseArgs(String[] args, ArgResult argResult) {

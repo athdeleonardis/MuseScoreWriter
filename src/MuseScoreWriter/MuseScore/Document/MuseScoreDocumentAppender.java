@@ -11,24 +11,16 @@ import java.util.List;
 
 // Removed all state based logic and made this class purely for appending
 public class MuseScoreDocumentAppender {
-    private MuseScoreDocumentCreator documentCreator;
+    private MuseScoreDocument document;
     private XMLObject currentVoice;
 
     //
     // Setters
     //
 
-    public MuseScoreDocumentAppender setDocumentCreator(MuseScoreDocumentCreator msdc) {
-        this.documentCreator = msdc;
+    public MuseScoreDocumentAppender setDocument(MuseScoreDocument document) {
+        this.document = document;
         return this;
-    }
-
-    //
-    // Getters
-    //
-
-    public MuseScoreDocumentCreator getDocumentCreator() {
-        return this.documentCreator;
     }
 
     //
@@ -41,7 +33,7 @@ public class MuseScoreDocumentAppender {
 
     public void newMeasure() {
         XMLObject currentMeasure = new XMLObject("Measure");
-        documentCreator.getStaff().addChild(currentMeasure);
+        document.getStaffXML().addChild(currentMeasure);
         currentVoice = new XMLObject("voice");
         currentMeasure.addChild(currentVoice);
     }
@@ -103,7 +95,7 @@ public class MuseScoreDocumentAppender {
     }
 
     public void endTuplet() {
-        currentVoice.addChild(documentCreator.createTupletEnd());
+        currentVoice.addChild(MuseScoreDocumentCreator.createTupletEnd());
     }
 
     //

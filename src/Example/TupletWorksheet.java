@@ -10,19 +10,16 @@ import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
-import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.Util.FractionStack;
 import MuseScoreWriter.Util.RandomProportionChooser;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 // read args from file: -f fileName
 // set document title: -t title
@@ -101,8 +98,8 @@ public class TupletWorksheet {
         ArgResult argResult = new ArgResult();
         new ArgumentReader<>(Arrays.asList(args), argResult, new ArgUpdater(), new ArgChecker()).readAllArgs();
 
-        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator(argResult.title, "Tuplet Worksheet", "Andrew De Leonardis");
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        MuseScoreDocument msd = MuseScoreDocumentCreator.create(argResult.title, "Tuplet Worksheet", "Andrew De Leonardis");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocument(msd);
 
         FractionStack fractionStack = new FractionStack();
         MeasureContext measureContext = new MeasureContext();
@@ -131,14 +128,11 @@ public class TupletWorksheet {
                     if (currentTuplet != 4)
                         measureContext.newTuplet(currentTuplet, fractionStack.peek());
                 }
-
-                Chord chord = chordReader.readChord(fractionStack.peek(), currentUnit);
-                fractionStack.subtract(chord.duration);
-                msda.addNotes(chord.notes, chord.duration, true);
+                measureContext.readChord(chordReader, currentUnit, true);
             }
             numRudimentsRemaining--;
         }
 
-        msdc.getDocument().compile("music/Tuplet Worksheet - " + argResult.title + ".mscx");
+        msd.getDocumentXML().compile("music/Tuplet Worksheet - " + argResult.title + ".mscx");
     }
 }

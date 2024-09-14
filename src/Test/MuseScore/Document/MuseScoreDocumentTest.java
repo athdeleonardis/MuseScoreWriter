@@ -1,6 +1,7 @@
 package Test.MuseScore.Document;
 
 import MuseScoreWriter.CustomMath.Fraction;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
@@ -11,8 +12,8 @@ import java.util.ArrayList;
 
 public class MuseScoreDocumentTest {
     public static void main(String[] args) {
-        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator("MuseScoreDocumentAppender Test", "Subtitle", "Composer");
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        MuseScoreDocument msd = MuseScoreDocumentCreator.create("MuseScoreDocumentAppender Test", "Subtitle", "Composer");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocument(msd);
         msda.addTimeSignature(new Fraction(15,16));
 
         NoteCreator nc = NoteCreator.getInstance();
@@ -44,6 +45,6 @@ public class MuseScoreDocumentTest {
             msda.addNotes(hihat, noteDuration, true);
         }
 
-        msda.getDocumentCreator().getDocument().compile("music/MuseScoreDocumentTest.mscx");
+        msd.getDocumentXML().compile("music/MuseScoreDocumentTest.mscx");
     }
 }

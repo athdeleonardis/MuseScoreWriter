@@ -5,6 +5,7 @@ import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChord
 import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
@@ -63,8 +64,8 @@ public class OstinatoCombinationsWorksheet {
             intCombinator.next();
         }
 
-        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator(argResult.title, "Ostinato Combinations Worksheet", "Andrew De Leonardis");
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        MuseScoreDocument msd = MuseScoreDocumentCreator.create(argResult.title, "Ostinato Combinations Worksheet", "Andrew De Leonardis");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocument(msd);
 
         FractionStack fractionStack = new FractionStack();
         MeasureContext measureContext = new MeasureContext();
@@ -89,7 +90,7 @@ public class OstinatoCombinationsWorksheet {
             msda.addNotes(chord.notes, chord.duration, true);
         }
 
-        msdc.getDocument().compile("music/" + argResult.title + ".mscx");
+        msd.getDocumentXML().compile("music/" + argResult.title + ".mscx");
     }
 
     private static void readArgs(List<String> args, ArgResult argResult) {

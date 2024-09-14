@@ -6,6 +6,7 @@ import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
@@ -86,8 +87,8 @@ public class MinuanoWorksheet {
         // Write staff to file
         //
 
-        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator("Minuano Worksheet", "Combinations", "Andrew De Leonardis");
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        MuseScoreDocument msd = MuseScoreDocumentCreator.create("Minuano Worksheet", "Combinations", "Andrew De Leonardis");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocument(msd);
 
         FractionStack fractionStack = new FractionStack();
         MeasureContext measureContext = new MeasureContext();
@@ -113,7 +114,7 @@ public class MinuanoWorksheet {
             msda.addNotes(chord.notes, chord.duration, false);
         }
 
-        msdc.getDocument().compile("music/Minuano Worksheet.mscx");
+        msd.getDocumentXML().compile("music/Minuano Worksheet.mscx");
     }
 
     public static void addLine(

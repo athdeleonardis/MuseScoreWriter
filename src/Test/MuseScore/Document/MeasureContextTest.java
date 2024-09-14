@@ -6,6 +6,7 @@ import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
 import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
+import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
@@ -20,8 +21,8 @@ public class MeasureContextTest {
     public static void main(String[] args) {
         int numRudiments = 64;
 
-        MuseScoreDocumentCreator msdc = new MuseScoreDocumentCreator("MeasureContextTest", "subtitle", "composer");
-        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocumentCreator(msdc);
+        MuseScoreDocument msd = MuseScoreDocumentCreator.create("MeasureContextTest", "subtitle", "composer");
+        MuseScoreDocumentAppender msda = new MuseScoreDocumentAppender().setDocument(msd);
         MeasureContext measureContext = new MeasureContext();
         measureContext.setTimeSignature(new Fraction(4,4));
         measureContext.setGroupSize(new Fraction(1,4));
@@ -75,6 +76,6 @@ public class MeasureContextTest {
 
         measureContext.checkContext();
 
-        msdc.getDocument().compile("music/MeasureContextTest.mscx");
+        msd.getDocumentXML().compile("music/MeasureContextTest.mscx");
     }
 }

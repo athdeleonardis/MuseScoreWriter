@@ -1,6 +1,8 @@
 package MuseScoreWriter.MuseScore.Document;
 
+import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
 import MuseScoreWriter.CustomMath.Fraction;
+import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.Util.FractionStack;
 
 import java.util.List;
@@ -78,5 +80,11 @@ public class MeasureContext {
     public void newTuplet(int numNotesInTuplet, Fraction duration) {
         msda.startTuplet(numNotesInTuplet, duration);
         fractionStack.push(duration);
+    }
+
+    public void readChord(AbstractStaffChordReader<?> chordReader, Fraction unit, boolean addLimbText) {
+        Chord chord = chordReader.readChord(fractionStack.peek(), unit);
+        fractionStack.subtract(chord.duration);
+        msda.addNotes(chord.notes, chord.duration, addLimbText);
     }
 }
