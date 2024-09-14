@@ -107,11 +107,7 @@ public class MinuanoWorksheet {
                 measureContext.newMeasure();
             if (measureContext.groupEnded())
                 measureContext.newGroup();
-            Fraction maxRead = fractionStack.peek();
-            System.out.println(fractionStack);
-            Chord chord = chordReader.readChord(maxRead, unit);
-            fractionStack.subtract(chord.duration);
-            msda.addNotes(chord.notes, chord.duration, false);
+            measureContext.readChord(chordReader, unit, false);
         }
 
         msd.getDocumentXML().compile("music/Minuano Worksheet.mscx");

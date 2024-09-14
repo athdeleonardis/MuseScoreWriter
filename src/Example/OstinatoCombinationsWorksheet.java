@@ -1,5 +1,8 @@
 package Example;
 
+import Example.Arguments.ArgumentReader;
+import Example.Arguments.ArgumentResultChecker;
+import Example.Arguments.ArgumentResultUpdater;
 import MuseScoreWriter.AbstractStaff.AbstractStaff;
 import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
 import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
@@ -40,10 +43,62 @@ public class OstinatoCombinationsWorksheet {
         }
     }
 
+    private static class ArgChecker implements ArgumentResultChecker<ArgResult> {
+        @Override
+        public void checkArgs(ArgResult argResult) {
+            if (argResult.title == null)
+                ArgumentReader.error("Title not provided.");
+            if (argResult.limbOstinatos.isEmpty())
+                ArgumentReader.error("No ostinato provided.");
+        }
+    }
+
+    private static class ArgUpdater implements ArgumentResultUpdater<ArgResult> {
+        @Override
+        public void updateFromArgs(String arg, ArgResult argResult, ArgumentReader<ArgResult> argumentReader) {
+            switch (arg) {
+                case "-t": {
+                    argResult.title = argumentReader.nextArg();
+                    break;
+                }
+                case "-ts": {
+                    String tsString = argumentReader.nextArg();
+                    argResult.timeSignature = Fraction.parseFraction(tsString);
+                    break;
+                }
+                case "-g": {
+                    String groupString = argumentReader.nextArg();
+                    argResult.groupSize = Fraction.parseFraction(groupString);
+                    break;
+                }
+                case "-u": {
+                    String unitString = argumentReader.nextArg();
+                    argResult.unit = Fraction.parseFraction(unitString);
+                    break;
+                }
+                case "-o": {
+                    String limbName = argumentReader.nextArg();
+                    List<String> noteNames = Arrays.asList(argumentReader.nextArg().split(","));
+                    String pattern = argumentReader.nextArg();
+
+                    Limb limb = Limb.parseLimb(limbName);
+                    if (limb == null)
+                        ArgumentReader.error("Failed to parse limb '" + limbName + "'.");
+
+                    AbstractStaff<Limb,Note> ostinato = AbstractRudimentCreator.ostinatoFromLinearPatternString(pattern, limb, pattern, noteNames);
+                    addOstinato(limb, argResult.limbOstinatos, ostinato);
+                    break;
+                }
+                default: {
+                    ArgumentReader.error("Failed to parse argument '" + arg + "'.");
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
         ArgResult argResult = new ArgResult();
-        readArgs(Arrays.asList(args), argResult);
-        checkArgs(argResult);
+        new ArgumentReader<>(Arrays.asList(args), argResult, new ArgUpdater(), new ArgChecker()).readAllArgs();
 
         // Construct combinator
         List<Limb> limbs = argResult.limbOstinatos.keySet().stream().toList();
@@ -90,74 +145,12 @@ public class OstinatoCombinationsWorksheet {
             msda.addNotes(chord.notes, chord.duration, true);
         }
 
-        msd.getDocumentXML().compile("music/" + argResult.title + ".mscx");
-    }
-
-    private static void readArgs(List<String> args, ArgResult argResult) {
-        for (String arg : args)
-            System.out.println(arg);
-        int index = 0;
-        while (index < args.size()) {
-            String arg = args.get(index++);
-            switch (arg) {
-                case "-f": {
-                    String fileName = args.get(index++);
-                    List<String> fileArgs = ArgFileReader.read(fileName);
-                    readArgs(fileArgs, argResult);
-                    break;
-                }
-                case "-t": {
-                    argResult.title = args.get(index++);
-                    break;
-                }
-                case "-ts": {
-                    String tsString = args.get(index++);
-                    argResult.timeSignature = Fraction.parseFraction(tsString);
-                    break;
-                }
-                case "-g": {
-                    String groupString = args.get(index++);
-                    argResult.groupSize = Fraction.parseFraction(groupString);
-                    break;
-                }
-                case "-u": {
-                    String unitString = args.get(index++);
-                    argResult.unit = Fraction.parseFraction(unitString);
-                    break;
-                }
-                case "-o": {
-                    String limbName = args.get(index++);
-                    List<String> noteNames = Arrays.asList(args.get(index++).split(","));
-                    String pattern = args.get(index++);
-
-                    Limb limb = Limb.parseLimb(limbName);
-                    if (limb == null)
-                        error("Failed to parse limb '" + limbName + "'.");
-
-                    AbstractStaff<Limb,Note> ostinato = AbstractRudimentCreator.ostinatoFromLinearPatternString(pattern, limb, pattern, noteNames);
-                    addOstinato(limb, argResult.limbOstinatos, ostinato);
-                    break;
-                }
-                default: {
-                    error("Failed to parse argument '" + arg + "'.");
-                }
-            }
-        }
-    }
-
-    private static void checkArgs(ArgResult argResult) {
-        if (argResult.title == null)
-            error("Title not provided.");
+        msd.getDocumentXML().compile("music/Ostinato Combinations Worksheet - " + argResult.title + ".mscx");
     }
 
     private static void addOstinato(Limb limb, Map<Limb,List<AbstractStaff<Limb,Note>>> map, AbstractStaff<Limb,Note> ostinato) {
         if (!map.containsKey(limb))
             map.put(limb, new ArrayList<>());
         map.get(limb).add(ostinato);
-    }
-
-    private static void error(String message) {
-        System.out.println(message);
-        System.exit(1);
     }
 }
