@@ -25,16 +25,12 @@ public class MinuanoWorksheet {
 
         // Limb notes
         RandomizedRudimentCreator rightHand = new RandomizedRudimentCreator()
-                .setPossibleLimbs(Arrays.asList(Limb.RightArm))
                 .setPossibleNotes(Limb.RightArm, Arrays.asList("Ride"));
         RandomizedRudimentCreator leftHand = new RandomizedRudimentCreator()
-                .setPossibleLimbs(Arrays.asList(Limb.LeftArm))
                 .setPossibleNotes(Limb.LeftArm, Arrays.asList("CrossStick"));
         RandomizedRudimentCreator rightLeg = new RandomizedRudimentCreator()
-                .setPossibleLimbs(Arrays.asList(Limb.RightLeg))
                 .setPossibleNotes(Limb.RightLeg, Arrays.asList("Kick"));
         RandomizedRudimentCreator leftLeg = new RandomizedRudimentCreator()
-                .setPossibleLimbs(Arrays.asList(Limb.LeftLeg))
                 .setPossibleNotes(Limb.LeftLeg, Arrays.asList("HihatPedal"));
 
         // Limb patterns

@@ -1,4 +1,4 @@
-package MuseScoreWriter.Util;
+package Example.Arguments;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

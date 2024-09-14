@@ -1,5 +1,6 @@
 package MuseScoreWriter.Util;
 
+import java.util.Collection;
 import java.util.Random;
 import java.util.List;
 
@@ -16,7 +17,9 @@ public class GlobalRandom<T> {
         return (getInstance().nextInt() & Integer.MAX_VALUE) % modulo;
     }
 
-    public static <T> T nextElement(List<T> list) {
-        return list.get(nextPositiveInt(list.size()));
+    public static <T> T nextElement(Collection<T> collection) {
+        int nextElem = nextPositiveInt(collection.size());
+        for (T elem : collection) if (nextElem-- == 0) return elem;
+        return null;
     }
 }

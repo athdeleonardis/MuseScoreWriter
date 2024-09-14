@@ -33,8 +33,6 @@ public class RandomizedRudimentCreatorTest {
                 .setProportion(1, 4);
 
         // Limbs
-        List<Limb> limbPossibilities = Arrays.asList(Limb.RightArm, Limb.LeftArm);
-        rrc.setPossibleLimbs(limbPossibilities);
 
         int numRandomDrumChoices = 5;
         int numRandomRudimentsPerDrumChoice = 10;

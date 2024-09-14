@@ -6,26 +6,25 @@ import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.MuseScore.Note.NoteCreator;
 import MuseScoreWriter.Util.GlobalRandom;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class RandomizedRudimentCreator {
-    private List<Limb> possibleLimbs;
+    private Set<Limb> possibleLimbs;
     private HashMap<Limb,List<String>> notePossibilitiesPerLimb;
     private Limb previousLimb;
 
     public RandomizedRudimentCreator() {
-        this.possibleLimbs = new ArrayList<>();
+        this.possibleLimbs = new TreeSet<>();
         this.notePossibilitiesPerLimb = new HashMap();
     }
 
-    public RandomizedRudimentCreator setPossibleLimbs(List<Limb> possibleLimbs) {
-        this.possibleLimbs = possibleLimbs;
-        return this;
-    }
-
     public RandomizedRudimentCreator setPossibleNotes(Limb limb, List<String> notePossibilities) {
+        if (notePossibilities == null || notePossibilities.isEmpty()) {
+            this.possibleLimbs.remove(limb);
+            this.notePossibilitiesPerLimb.remove(limb);
+            return this;
+        }
+        this.possibleLimbs.add(limb);
         this.notePossibilitiesPerLimb.put(limb, notePossibilities);
         return this;
     }
@@ -33,6 +32,10 @@ public class RandomizedRudimentCreator {
     public RandomizedRudimentCreator setLastLimb(Limb limb) {
         this.previousLimb = limb;
         return this;
+    }
+
+    public boolean hasAtLeastTwoLimbs() {
+        return this.possibleLimbs.size() > 1;
     }
 
     public AbstractStaff<Limb,Note> create(AbstractStaff abstractStaff, boolean avoidSequentialSameLimb) {
@@ -43,7 +46,7 @@ public class RandomizedRudimentCreator {
             Limb chosenLimb = GlobalRandom.nextElement(possibleLimbs);
             while (avoidSequentialSameLimb && chosenLimb.equals(previousLimb))
                 chosenLimb = GlobalRandom.nextElement(possibleLimbs);
-            previousLimb = chosenLimb;
+            setLastLimb(chosenLimb);
 
             List<String> possibleNotes = notePossibilitiesPerLimb.get(chosenLimb);
             String chosenNoteName = GlobalRandom.nextElement(possibleNotes);

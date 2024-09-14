@@ -32,7 +32,6 @@ public class MeasureContextTest {
 
         AbstractStaff<Integer,Boolean> abstractRudiment = AbstractRudimentCreator.getInstance().create("Paradiddle");
         RandomizedRudimentCreator rrc = new RandomizedRudimentCreator()
-                .setPossibleLimbs(Arrays.asList(Limb.LeftArm, Limb.RightArm))
                 .setPossibleNotes(Limb.LeftArm, Arrays.asList("Snare"))
                 .setPossibleNotes(Limb.RightArm, Arrays.asList("Snare"));
 

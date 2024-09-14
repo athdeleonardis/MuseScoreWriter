@@ -12,10 +12,9 @@ import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.Util.FractionStack;
 import MuseScoreWriter.Util.IntCombinator;
-import MuseScoreWriter.Util.ArgFileReader;
+import Example.Arguments.ArgFileReader;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 // Read args from file: -f fileName
 // Set doc title: -t title

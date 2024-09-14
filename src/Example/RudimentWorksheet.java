@@ -136,7 +136,6 @@ public class RudimentWorksheet {
                 }
             }
         }
-        argResult.randomizedRudimentCreator.setPossibleLimbs(possibleLimbs);
         if (argResult.title == null)
             error("Title not provided.");
     }
