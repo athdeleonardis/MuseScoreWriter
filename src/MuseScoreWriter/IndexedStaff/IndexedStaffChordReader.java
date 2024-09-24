@@ -1,20 +1,19 @@
-package MuseScoreWriter.AbstractStaff.AbstractStaffChordReader;
+package MuseScoreWriter.IndexedStaff;
 
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.MuseScore.Note.Note;
 
-import java.util.ArrayList;
+import java.util.*;
 
-public class AbstractStaffChordReader<T> {
-    private AbstractStaff<T, Note> abstractStaff;
+public class IndexedStaffChordReader<T extends Comparable<T>> {
+    private IndexedStaff<T, Note> indexedStaff;
     private int readPosition;
     private int startPosition;
     private int endPosition;
 
-    public void setAbstractStaff(AbstractStaff<T, Note> abstractStaff, int startPosition, int endPosition) {
-        this.abstractStaff = abstractStaff;
+    public void setAbstractStaff(IndexedStaff<T, Note> indexedStaff, int startPosition, int endPosition) {
+        this.indexedStaff = indexedStaff;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
         this.readPosition = startPosition;
@@ -23,27 +22,22 @@ public class AbstractStaffChordReader<T> {
     // unit should evenly divide maxDuration
     public Chord readChord(Fraction maxDuration, Fraction unit) {
         Fraction groupRemaining = new Fraction(maxDuration).divide(unit);
-        int maxReadLength = Integer.min(abstractStaff.getLength() - readPosition, groupRemaining.quotient());
-
+        int maxReadLength = Integer.min(indexedStaff.getLength() - readPosition, groupRemaining.quotient());
         int len = 1;
 
-        // Read the notes into a chord
-        ArrayList<Note> notes = null;
-        for (T noteName : abstractStaff.getNoteNames()) {
-            if (abstractStaff.hasNoteAtPosition(noteName, readPosition)) {
-                if (notes == null)
-                    notes = new ArrayList<Note>();
-                notes.add(abstractStaff.getNoteAtPosition(noteName, readPosition));
-            }
+        List<Note> notes = null;
+        TreeMap<T,Note> notesMap = indexedStaff.getNotes(readPosition);
+        if (!notesMap.isEmpty()) {
+            notes = new ArrayList<>();
+            notes.addAll(notesMap.values());
         }
 
         // Read empty notes
         while (readPosition+len < endPosition &&
                 len < maxReadLength &&
-                !abstractStaff.hasNoteAtPosition(readPosition+len)) {
+                !indexedStaff.hasNote(readPosition+len)) {
             len++;
         }
-
         readPosition += len;
 
         return new Chord(notes, new Fraction(unit).multiply(len).simplify());

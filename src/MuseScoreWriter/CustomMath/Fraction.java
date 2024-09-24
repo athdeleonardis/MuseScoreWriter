@@ -65,6 +65,10 @@ public class Fraction extends Object implements Comparable<Fraction> {
         return this.numerator == other.getNumerator() && this.denominator == other.getDenominator();
     }
 
+    public boolean equals(Fraction other) {
+        return this.numerator * other.denominator == other.numerator * this.denominator;
+    }
+
     public static Fraction min(Fraction a, Fraction b) {
         return (a.numerator * b.getDenominator() < b.getNumerator() * a.denominator) ? a : b;
     }

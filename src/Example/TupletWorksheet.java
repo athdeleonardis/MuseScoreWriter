@@ -4,10 +4,10 @@ package Example;
 import Example.Arguments.ArgumentReader;
 import Example.Arguments.ArgumentResultChecker;
 import Example.Arguments.ArgumentResultUpdater;
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
-import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
+import MuseScoreWriter.IndexedStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
@@ -21,6 +21,8 @@ import MuseScoreWriter.Util.RandomProportionChooser;
 import java.util.Arrays;
 import java.util.List;
 
+import static Example.Arguments.ArgumentReader.*;
+
 // read args from file: -f fileName
 // set document title: -t title
 // set tuplet proportion: -tu proportion t1
@@ -33,7 +35,7 @@ public class TupletWorksheet {
         public String title;
         public int numRudiments;
         public RandomProportionChooser<Integer> tupletChooser;
-        public RandomProportionChooser<AbstractStaff<Integer,Boolean>> rudimentChooser;
+        public RandomProportionChooser<IndexedStaff<Integer,?>> rudimentChooser;
         public RandomizedRudimentCreator rrc;
 
         public ArgResult() {
@@ -47,13 +49,13 @@ public class TupletWorksheet {
         @Override
         public void checkArgs(ArgResult argResult) {
             if (argResult.title == null)
-                ArgumentReader.error("Document title not provided.");
+                error("Document title not provided.");
             if (argResult.tupletChooser.isEmpty())
-                ArgumentReader.error("No tuplets provided.");
+                error("No tuplets provided.");
             if (argResult.rudimentChooser.isEmpty())
-                ArgumentReader.error("No rudiments provided.");
+                error("No rudiments provided.");
             if (!argResult.rrc.hasAtLeastTwoLimbs())
-                ArgumentReader.error("At least two limbs need to be provided.");
+                error("At least two limbs need to be provided.");
         }
     }
 
@@ -61,35 +63,24 @@ public class TupletWorksheet {
         @Override
         public void updateFromArgs(String arg, ArgResult argResult, ArgumentReader<ArgResult> argumentReader) {
             switch (arg) {
-                case "-t": {
-                    argResult.title = argumentReader.nextArg();
-                    break;
-                }
-                case "-n": {
-                    argResult.numRudiments = Integer.parseInt(argumentReader.nextArg());
-                    break;
-                }
-                case "-tu": {
+                case "-t" -> argResult.title = argumentReader.nextArg();
+                case "-n" -> argResult.numRudiments = Integer.parseInt(argumentReader.nextArg());
+                case "-tu" -> {
                     float proportion = Float.parseFloat(argumentReader.nextArg());
                     int tuplet = Integer.parseInt(argumentReader.nextArg());
                     argResult.tupletChooser.setProportion(proportion, tuplet);
-                    break;
                 }
-                case "-r": {
+                case "-r" -> {
                     float proportion = Float.parseFloat(argumentReader.nextArg());
-                    AbstractStaff<Integer,Boolean> rudiment = AbstractRudimentCreator.getInstance().create(argumentReader.nextArg());
+                    IndexedStaff<Integer, ?> rudiment = IndexedStaffRudimentCreator.getInstance().create(argumentReader.nextArg());
                     argResult.rudimentChooser.setProportion(proportion, rudiment);
-                    break;
                 }
-                case "-l": {
+                case "-l" -> {
                     Limb limb = Limb.parseLimb(argumentReader.nextArg());
                     List<String> noteNames = Arrays.asList(argumentReader.nextArg().split(","));
                     argResult.rrc.setPossibleNotes(limb, noteNames);
-                    break;
                 }
-                default: {
-                    ArgumentReader.error("Unable to parse argument '" + arg + "'.");
-                }
+                default -> error("Unable to parse argument '" + arg + "'.");
             }
         }
     }
@@ -111,9 +102,9 @@ public class TupletWorksheet {
         int numRudimentsRemaining = argResult.numRudiments;
         int currentTuplet = 0;
         Fraction currentUnit = null;
-        AbstractStaffChordReader<Limb> chordReader = new AbstractStaffChordReader<>();
+        IndexedStaffChordReader<Limb> chordReader = new IndexedStaffChordReader<>();
         while (numRudimentsRemaining > 0) {
-            AbstractStaff<Limb, Note> rudiment = argResult.rrc.create(argResult.rudimentChooser.getItem(), true);
+            IndexedStaff<Limb, Note> rudiment = argResult.rrc.create(argResult.rudimentChooser.getItem(), true);
             chordReader.setAbstractStaff(rudiment, 0, rudiment.getLength());
 
             while (!chordReader.isFinished()) {

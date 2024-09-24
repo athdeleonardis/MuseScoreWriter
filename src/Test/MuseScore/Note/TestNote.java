@@ -4,7 +4,7 @@ import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.MuseScore.Note.NoteCreator;
 import MuseScoreWriter.XML.XMLObject;
 
-public class NoteTest {
+public class TestNote {
     public static void main(String[] args) {
         String[] noteNames = { "Snare", "Hihat", "Kick", "HighTom", "MidTom", "LowTom", "HihatClose" };
         NoteCreator nc = NoteCreator.getInstance();

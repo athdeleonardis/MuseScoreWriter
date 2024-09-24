@@ -1,9 +1,9 @@
 package Test.MuseScore.Document;
 
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
-import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
+import MuseScoreWriter.IndexedStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
@@ -17,7 +17,7 @@ import MuseScoreWriter.Util.RandomProportionChooser;
 
 import java.util.Arrays;
 
-public class MeasureContextTest {
+public class TestMeasureContext {
     public static void main(String[] args) {
         int numRudiments = 64;
 
@@ -31,19 +31,19 @@ public class MeasureContextTest {
         measureContext.setDocumentAppender(msda);
         measureContext.setFractionStack(fractionStack);
 
-        AbstractStaff<Integer,Boolean> abstractRudiment = AbstractRudimentCreator.getInstance().create("Paradiddle");
+        IndexedStaff<Integer,?> abstractRudiment = IndexedStaffRudimentCreator.getInstance().create("Paradiddle");
         RandomizedRudimentCreator rrc = new RandomizedRudimentCreator()
                 .setPossibleNotes(Limb.LeftArm, Arrays.asList("Snare"))
                 .setPossibleNotes(Limb.RightArm, Arrays.asList("Snare"));
 
-        AbstractStaffChordReader<Limb> chordReader = new AbstractStaffChordReader<>();
+        IndexedStaffChordReader<Limb> chordReader = new IndexedStaffChordReader<>();
 
         RandomProportionChooser<Integer> tupletChooser = new RandomProportionChooser<Integer>()
                 .setProportion(1, 3)
                 .setProportion(1, 4)
                 .setProportion(1, 5);
 
-        AbstractStaff<Limb, Note> rudiment;
+        IndexedStaff<Limb, Note> rudiment;
         Fraction unit = new Fraction(1,16);
         while (numRudiments-- > 0) {
             rudiment = rrc.create(abstractRudiment, true);

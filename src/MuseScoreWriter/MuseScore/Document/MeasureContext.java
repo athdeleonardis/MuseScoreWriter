@@ -1,6 +1,6 @@
 package MuseScoreWriter.MuseScore.Document;
 
-import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
+import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.Util.FractionStack;
@@ -82,7 +82,7 @@ public class MeasureContext {
         fractionStack.push(duration);
     }
 
-    public void readChord(AbstractStaffChordReader<?> chordReader, Fraction unit, boolean addLimbText) {
+    public void readChord(IndexedStaffChordReader<?> chordReader, Fraction unit, boolean addLimbText) {
         Chord chord = chordReader.readChord(fractionStack.peek(), unit);
         fractionStack.subtract(chord.duration);
         msda.addNotes(chord.notes, chord.duration, addLimbText);

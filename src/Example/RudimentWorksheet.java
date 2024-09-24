@@ -3,17 +3,16 @@ package Example;
 import Example.Arguments.ArgumentReader;
 import Example.Arguments.ArgumentResultChecker;
 import Example.Arguments.ArgumentResultUpdater;
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
-import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
+import MuseScoreWriter.IndexedStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
-import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.Util.FractionStack;
 import MuseScoreWriter.Util.RandomProportionChooser;
@@ -34,7 +33,7 @@ public class RudimentWorksheet {
         public int numRudiments;
         public Fraction timeSignature;
         public RandomProportionChooser<Integer> rudimentChooser;
-        public List<AbstractStaff<Integer,Boolean>> rudiments;
+        public List<IndexedStaff<Integer,?>> rudiments;
         public List<Integer> rudimentSubdivisions;
         public RandomizedRudimentCreator randomizedRudimentCreator;
 
@@ -62,26 +61,20 @@ public class RudimentWorksheet {
         @Override
         public void updateFromArgs(String arg, ArgResult argResult, ArgumentReader<ArgResult> argumentReader) {
             switch (arg) {
-                case "-t": {
-                    String title = argumentReader.nextArg();
-                    argResult.title = title;
-                    break;
-                }
-                case "-ts": {
+                case "-t" -> argResult.title = argumentReader.nextArg();
+                case "-ts" -> {
                     String timeSigStr = argumentReader.nextArg();
                     argResult.timeSignature = Fraction.parseFraction(timeSigStr);
-                    break;
                 }
-                case "-n": {
+                case "-n" -> {
                     String rudimentCountStr = argumentReader.nextArg();
                     argResult.numRudiments = Integer.parseInt(rudimentCountStr);
-                    break;
                 }
-                case "-r": {
+                case "-r" -> {
                     String rudimentName = argumentReader.nextArg();
                     String rudimentSubdivisionStr = argumentReader.nextArg();
                     String rudimentProportionStr = argumentReader.nextArg();
-                    AbstractStaff<Integer,Boolean> rudiment = AbstractRudimentCreator.getInstance().create(rudimentName);
+                    IndexedStaff<Integer, ?> rudiment = IndexedStaffRudimentCreator.getInstance().create(rudimentName);
                     if (rudiment == null)
                         ArgumentReader.error("Couldn't parse rudiment: " + rudimentName);
                     int rudimentSubdivision = Integer.parseInt(rudimentSubdivisionStr);
@@ -90,20 +83,16 @@ public class RudimentWorksheet {
                     argResult.rudimentChooser.setProportion(rudimentProportion, rudimentIndex);
                     argResult.rudiments.add(rudiment);
                     argResult.rudimentSubdivisions.add(rudimentSubdivision);
-                    break;
                 }
-                case "-l": {
+                case "-l" -> {
                     String limbName = argumentReader.nextArg();
                     String[] notes = argumentReader.nextArg().split(",");
                     Limb limb = Limb.parseLimb(limbName);
                     if (limb == null)
                         ArgumentReader.error("Couldn't parse limb '" + limbName + "'.");
                     argResult.randomizedRudimentCreator.setPossibleNotes(limb, Arrays.asList(notes));
-                    break;
                 }
-                default: {
-                    ArgumentReader.error("Couldn't parse argument: " + arg);
-                }
+                default -> ArgumentReader.error("Couldn't parse argument: " + arg);
             }
         }
     }
@@ -122,11 +111,11 @@ public class RudimentWorksheet {
         measureContext.setTimeSignature(argResult.timeSignature);
         measureContext.setGroupSize(new Fraction(1,4));
 
-        AbstractStaffChordReader<Limb> chordReader = new AbstractStaffChordReader<>();
+        IndexedStaffChordReader<Limb> chordReader = new IndexedStaffChordReader<>();
         for (int i = 0; i < argResult.numRudiments; i++) {
             int rudimentIndex = argResult.rudimentChooser.getItem();
-            AbstractStaff<Integer,Boolean> rudimentChoice = argResult.rudiments.get(rudimentIndex);
-            AbstractStaff<Limb,Note> rudiment = argResult.randomizedRudimentCreator.create(rudimentChoice, true);
+            IndexedStaff<Integer,?> rudimentChoice = argResult.rudiments.get(rudimentIndex);
+            IndexedStaff<Limb,Note> rudiment = argResult.randomizedRudimentCreator.create(rudimentChoice, true);
             chordReader.setAbstractStaff(rudiment, 0, rudiment.getLength());
             Fraction readUnit = new Fraction(1,argResult.rudimentSubdivisions.get(rudimentIndex));
 

@@ -1,0 +1,15 @@
+-t Singles
+
+-n 256
+
+-r 15 singlestroke
+-r 1 rest
+
+-tu 1 1
+-tu 1 2
+-tu 14 3
+-tu 14 4
+-tu 14 5
+
+-l righthand snare
+-l lefthand floortom

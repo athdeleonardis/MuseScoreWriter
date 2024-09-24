@@ -1,11 +1,11 @@
-package Test.AbstractStaff.Rudiment;
+package Test.IndexedStaff.Rudiment;
 
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
 
-public class AbstractRudimentTest {
+public class TestIndexedStaff {
     public static void main(String[] args) {
-        AbstractRudimentCreator arc = AbstractRudimentCreator.getInstance();
+        IndexedStaffRudimentCreator isrc = IndexedStaffRudimentCreator.getInstance();
 
         String[] rudimentNames = {
                 "Rest",
@@ -18,8 +18,8 @@ public class AbstractRudimentTest {
         };
 
         for (String rudimentName : rudimentNames) {
-            AbstractStaff<Integer,Boolean> rudiment = arc.create(rudimentName);
-            arc.logRudiment(rudiment);
+            IndexedStaff<Integer,?> rudiment = isrc.create(rudimentName);
+            System.out.println(IndexedStaffRudimentCreator.toString(rudiment));
         }
 
         String[] rudimentLinearPatterns = {
@@ -30,8 +30,8 @@ public class AbstractRudimentTest {
         };
 
         for (String linearPattern : rudimentLinearPatterns) {
-            AbstractStaff<Integer,Boolean> rudiment = AbstractRudimentCreator.fromLinearPatternString(linearPattern, linearPattern);
-            arc.logRudiment(rudiment);
+            IndexedStaff<Integer,Boolean> rudiment = IndexedStaffRudimentCreator.fromLinearPatternString(linearPattern, linearPattern);
+            isrc.toString(rudiment);
         }
     }
 }

@@ -3,9 +3,9 @@ package Example;
 import Example.Arguments.ArgumentReader;
 import Example.Arguments.ArgumentResultChecker;
 import Example.Arguments.ArgumentResultUpdater;
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
@@ -16,7 +16,6 @@ import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.Util.FractionStack;
 import MuseScoreWriter.Util.IntCombinator;
-import Example.Arguments.ArgFileReader;
 
 import java.util.*;
 
@@ -33,7 +32,7 @@ public class OstinatoCombinationsWorksheet {
         public Fraction timeSignature;
         public Fraction groupSize;
         public Fraction unit;
-        public Map<Limb, List<AbstractStaff<Limb, Note>>> limbOstinatos;
+        public Map<Limb, List<IndexedStaff<Limb, Note>>> limbOstinatos;
 
         public ArgResult() {
             this.timeSignature = new Fraction(4,4);
@@ -57,26 +56,20 @@ public class OstinatoCombinationsWorksheet {
         @Override
         public void updateFromArgs(String arg, ArgResult argResult, ArgumentReader<ArgResult> argumentReader) {
             switch (arg) {
-                case "-t": {
-                    argResult.title = argumentReader.nextArg();
-                    break;
-                }
-                case "-ts": {
+                case "-t" -> argResult.title = argumentReader.nextArg();
+                case "-ts" -> {
                     String tsString = argumentReader.nextArg();
                     argResult.timeSignature = Fraction.parseFraction(tsString);
-                    break;
                 }
-                case "-g": {
+                case "-g" -> {
                     String groupString = argumentReader.nextArg();
                     argResult.groupSize = Fraction.parseFraction(groupString);
-                    break;
                 }
-                case "-u": {
+                case "-u" -> {
                     String unitString = argumentReader.nextArg();
                     argResult.unit = Fraction.parseFraction(unitString);
-                    break;
                 }
-                case "-o": {
+                case "-o" -> {
                     String limbName = argumentReader.nextArg();
                     List<String> noteNames = Arrays.asList(argumentReader.nextArg().split(","));
                     String pattern = argumentReader.nextArg();
@@ -85,13 +78,10 @@ public class OstinatoCombinationsWorksheet {
                     if (limb == null)
                         ArgumentReader.error("Failed to parse limb '" + limbName + "'.");
 
-                    AbstractStaff<Limb,Note> ostinato = AbstractRudimentCreator.ostinatoFromLinearPatternString(pattern, limb, pattern, noteNames);
+                    IndexedStaff<Limb, Note> ostinato = IndexedStaffRudimentCreator.ostinatoFromLinearPatternString(pattern, limb, pattern, noteNames);
                     addOstinato(limb, argResult.limbOstinatos, ostinato);
-                    break;
                 }
-                default: {
-                    ArgumentReader.error("Failed to parse argument '" + arg + "'.");
-                }
+                default -> ArgumentReader.error("Failed to parse argument '" + arg + "'.");
             }
         }
     }
@@ -107,13 +97,13 @@ public class OstinatoCombinationsWorksheet {
             numOstinatosPerLimb.add(argResult.limbOstinatos.get(limb).size());
         IntCombinator intCombinator = new IntCombinator(numOstinatosPerLimb);
 
-        AbstractStaff<Limb,Note> staff = new AbstractStaff<>("Staff");
+        IndexedStaff<Limb,Note> staff = new IndexedStaff<>("Staff");
         while (!intCombinator.isFinished()) {
             int[] ostinatoChoices = intCombinator.getValues();
             int staffPosition = staff.getLength();
             for (int i = 0; i < limbs.size(); i++) {
                 Limb limb = limbs.get(i);
-                AbstractStaff<Limb,Note> ostinato = argResult.limbOstinatos.get(limb).get(ostinatoChoices[i]);
+                IndexedStaff<Limb,Note> ostinato = argResult.limbOstinatos.get(limb).get(ostinatoChoices[i]);
                 staff.addNotes(ostinato, staffPosition, 1, false);
             }
             intCombinator.next();
@@ -129,7 +119,7 @@ public class OstinatoCombinationsWorksheet {
         measureContext.setTimeSignature(argResult.timeSignature);
         measureContext.setGroupSize(new Fraction(1,4));
 
-        AbstractStaffChordReader<Limb> chordReader = new AbstractStaffChordReader<>();
+        IndexedStaffChordReader<Limb> chordReader = new IndexedStaffChordReader<>();
         chordReader.setAbstractStaff(staff, 0, staff.getLength());
         while (!chordReader.isFinished()) {
             measureContext.checkContext();
@@ -148,7 +138,7 @@ public class OstinatoCombinationsWorksheet {
         msd.getDocumentXML().compile("music/Ostinato Combinations Worksheet - " + argResult.title + ".mscx");
     }
 
-    private static void addOstinato(Limb limb, Map<Limb,List<AbstractStaff<Limb,Note>>> map, AbstractStaff<Limb,Note> ostinato) {
+    private static void addOstinato(Limb limb, Map<Limb,List<IndexedStaff<Limb,Note>>> map, IndexedStaff<Limb,Note> ostinato) {
         if (!map.containsKey(limb))
             map.put(limb, new ArrayList<>());
         map.get(limb).add(ostinato);

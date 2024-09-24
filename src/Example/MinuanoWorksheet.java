@@ -1,16 +1,15 @@
 package Example;
 
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.AbstractStaffChordReader.AbstractStaffChordReader;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
-import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
+import MuseScoreWriter.IndexedStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Document.MeasureContext;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocument;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentAppender;
 import MuseScoreWriter.MuseScore.Document.MuseScoreDocumentCreator;
 import MuseScoreWriter.MuseScore.Limb;
-import MuseScoreWriter.MuseScore.Note.Chord;
 import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.Util.FractionStack;
 import MuseScoreWriter.Util.RandomProportionChooser;
@@ -35,29 +34,29 @@ public class MinuanoWorksheet {
                 .setPossibleNotes(Limb.LeftLeg, Arrays.asList("HihatPedal"));
 
         // Limb patterns
-        RandomProportionChooser<AbstractStaff<Limb, Note>> rightHandPatternChooser = new RandomProportionChooser<>();
+        RandomProportionChooser<IndexedStaff<Limb, Note>> rightHandPatternChooser = new RandomProportionChooser<>();
         rightHandPatternChooser
-                .setProportion(6, rightHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxOOOxOxOOOx"), false))
-                .setProportion(2, rightHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxOOOxOOOxOO"), false))
-                .setProportion(2, rightHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxOOOxOOOxOO"), false))
-                .setProportion(2, rightHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OOOxOOOxOOOx"), false))
-                .setProportion(2, rightHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxOOOxOOOxOO"), false))
+                .setProportion(6, rightHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxOOOxOxOOOx"), false))
+                .setProportion(2, rightHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxOOOxOOOxOO"), false))
+                .setProportion(2, rightHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxOOOxOOOxOO"), false))
+                .setProportion(2, rightHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OOOxOOOxOOOx"), false))
+                .setProportion(2, rightHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxOOOxOOOxOO"), false))
                 .setProportion(1,null);
 
 
-        RandomProportionChooser<AbstractStaff<Limb,Note>> leftHandPatternChooser = new RandomProportionChooser<>();
+        RandomProportionChooser<IndexedStaff<Limb,Note>> leftHandPatternChooser = new RandomProportionChooser<>();
         leftHandPatternChooser
-                .setProportion(6, leftHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxxOxxOxxOxx"), false))
-                .setProportion(2, leftHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxxOxxOxOxOx"), false))
-                .setProportion(2, leftHand.create(AbstractRudimentCreator.fromLinearPatternString("", "xOxxOxxOxxOx"), false))
-                .setProportion(2, leftHand.create(AbstractRudimentCreator.fromLinearPatternString("", "OxxOxxOxOxOx"), false))
+                .setProportion(6, leftHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxxOxxOxxOxx"), false))
+                .setProportion(2, leftHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxxOxxOxOxOx"), false))
+                .setProportion(2, leftHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "xOxxOxxOxxOx"), false))
+                .setProportion(2, leftHand.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxxOxxOxOxOx"), false))
                 .setProportion(1, null);
 
-        RandomProportionChooser<AbstractStaff<Limb,Note>> leftLegPatternChooser = new RandomProportionChooser<>();
+        RandomProportionChooser<IndexedStaff<Limb,Note>> leftLegPatternChooser = new RandomProportionChooser<>();
         leftLegPatternChooser
-                .setProportion(12, leftLeg.create(AbstractRudimentCreator.fromLinearPatternString("", "OxxxOxxxOxxx"), false))
-                .setProportion(4,  leftLeg.create(AbstractRudimentCreator.fromLinearPatternString("", "xxOxxxOxxxOx"), false))
-                .setProportion(4,  leftLeg.create(AbstractRudimentCreator.fromLinearPatternString("", "xxOxxxxxOxxx"), false))
+                .setProportion(12, leftLeg.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "OxxxOxxxOxxx"), false))
+                .setProportion(4,  leftLeg.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "xxOxxxOxxxOx"), false))
+                .setProportion(4,  leftLeg.create(IndexedStaffRudimentCreator.fromLinearPatternString("", "xxOxxxxxOxxx"), false))
                 .setProportion(1,  null);
 
         // Limb randomness
@@ -75,7 +74,7 @@ public class MinuanoWorksheet {
         //
 
         int numBars = 64;
-        AbstractStaff<Limb,Note> staff = new AbstractStaff<Limb,Note>("Staff").increaseToLength(12*numBars);
+        IndexedStaff<Limb,Note> staff = new IndexedStaff<Limb,Note>("Staff").increaseToLength(12*numBars);
         for (int i = 0; i < numBars; i++) {
             addLine(i*12, staff, rightHand, rightHandPatternChooser, rightHandRandom);
             addLine(i*12, staff, leftHand, leftHandPatternChooser, leftHandRandom);
@@ -97,7 +96,7 @@ public class MinuanoWorksheet {
         measureContext.setTimeSignature(new Fraction(6,8));
         measureContext.setGroupSize(new Fraction(3,16));
 
-        AbstractStaffChordReader<Limb> chordReader = new AbstractStaffChordReader<>();
+        IndexedStaffChordReader<Limb> chordReader = new IndexedStaffChordReader<>();
         chordReader.setAbstractStaff(staff, 0, staff.getLength());
         Fraction unit = new Fraction(1,16);
 
@@ -115,19 +114,19 @@ public class MinuanoWorksheet {
 
     public static void addLine(
             int position,
-            AbstractStaff<Limb,Note> staff,
+            IndexedStaff<Limb,Note> staff,
             RandomizedRudimentCreator rrc,
-            RandomProportionChooser<AbstractStaff<Limb,Note>> chooser,
+            RandomProportionChooser<IndexedStaff<Limb,Note>> chooser,
             RandomProportionChooser<Character> randomLine
     ) {
-        AbstractStaff<Limb,Note> abstractStaff = null;
+        IndexedStaff<Limb,Note> indexedStaff = null;
         if (chooser != null)
-            abstractStaff = chooser.getItem();
-        if (abstractStaff == null) {
+            indexedStaff = chooser.getItem();
+        if (indexedStaff == null) {
             String randomPattern = StringRandom.fromRandomProportionChooser(12, randomLine);
-            AbstractStaff<Integer,Boolean> abstracterStaff = AbstractRudimentCreator.fromLinearPatternString(randomPattern, randomPattern);
-            abstractStaff = rrc.create(abstracterStaff, false);
+            IndexedStaff<Integer,Boolean> abstracterStaff = IndexedStaffRudimentCreator.fromLinearPatternString(randomPattern, randomPattern);
+            indexedStaff = rrc.create(abstracterStaff, false);
         }
-        staff.addNotes(abstractStaff, position, 1, true);
+        staff.addNotes(indexedStaff, position, 1, true);
     }
 }

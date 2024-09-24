@@ -1,8 +1,8 @@
-package Test.AbstractStaff.Rudiment;
+package Test.IndexedStaff.Rudiment;
 
-import MuseScoreWriter.AbstractStaff.AbstractStaff;
-import MuseScoreWriter.AbstractStaff.Rudiment.AbstractRudimentCreator;
-import MuseScoreWriter.AbstractStaff.Rudiment.RandomizedRudimentCreator;
+import MuseScoreWriter.IndexedStaff.IndexedStaff;
+import MuseScoreWriter.IndexedStaff.Rudiment.IndexedStaffRudimentCreator;
+import MuseScoreWriter.IndexedStaff.Rudiment.RandomizedRudimentCreator;
 import MuseScoreWriter.MuseScore.Limb;
 import MuseScoreWriter.MuseScore.Note.Note;
 import MuseScoreWriter.Util.GlobalRandom;
@@ -13,16 +13,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class RandomizedRudimentCreatorTest {
+public class TestRandomizedRudimentCreator {
     public static void main(String[] args) {
         RandomizedRudimentCreator rrc = new RandomizedRudimentCreator();
 
         // Rudiments
         String[] rudimentNames = { "FiveStroke", "Herta", "Rest" };
-        AbstractRudimentCreator arc = AbstractRudimentCreator.getInstance();
-        ArrayList<AbstractStaff<Integer,Boolean>> rudiments = new ArrayList<>();
+        IndexedStaffRudimentCreator isrc = IndexedStaffRudimentCreator.getInstance();
+        ArrayList<IndexedStaff<Integer,?>> rudiments = new ArrayList<>();
         for (String rudimentName : rudimentNames)
-            rudiments.add(arc.create(rudimentName));
+            rudiments.add(isrc.create(rudimentName));
 
         // Notes
         List<String> handNotes = Arrays.asList("Snare", "HighTom", "MidTom", "LowTom");
@@ -45,8 +45,8 @@ public class RandomizedRudimentCreatorTest {
             String drumsChosenStr = "Drums chosen: " + String.join(", ", drumsChosen);
             System.out.println(drumsChosenStr);
             for (int j = 0; j < numRandomRudimentsPerDrumChoice; j++) {
-                AbstractStaff<Integer,Boolean> rudiment = GlobalRandom.nextElement(rudiments);
-                AbstractStaff<Limb,Note> concreteRudiment = rrc.create(rudiment, true);
+                IndexedStaff<Integer,?> rudiment = GlobalRandom.nextElement(rudiments);
+                IndexedStaff<Limb,Note> concreteRudiment = rrc.create(rudiment, true);
                 System.out.println(concreteRudiment);
                 System.out.println(concreteRudiment.noteString());
             }

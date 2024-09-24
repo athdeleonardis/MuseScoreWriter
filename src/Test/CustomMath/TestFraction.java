@@ -2,7 +2,7 @@ package Test.CustomMath;
 
 import MuseScoreWriter.CustomMath.Fraction;
 
-public class FractionTest {
+public class TestFraction {
     public static void main(String[] args) {
         Fraction fraction1 = new Fraction(1,2);
         System.out.println(fraction1);

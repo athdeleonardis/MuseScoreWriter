@@ -53,12 +53,12 @@ public class MuseScoreDocumentCreator {
     // Okay for non-nested tuplets
     public static XMLObject createTupletStart(int numNotesInTuple, Fraction duration) {
         duration = new Fraction(duration).simplify();
-        System.out.println("Tuple duration: "+ duration);
+        // System.out.println("Tuple duration: "+ duration);
         Fraction tupleUnitDuration = new Fraction(duration).divide(numNotesInTuple).simplify(); // Length of a single unit note in the tuple
-        System.out.println("Tuple unit duration: " + tupleUnitDuration);
+        // System.out.println("Tuple unit duration: " + tupleUnitDuration);
 
         int baseNote = nextHigherDurationType(tupleUnitDuration);
-        System.out.println("Base note int: " + baseNote);
+        // System.out.println("Base note int: " + baseNote);
         int normalNotes = duration.multiply(baseNote).simplify().quotient(); // Should evenly divide
         int actualNotes = numNotesInTuple;
 
