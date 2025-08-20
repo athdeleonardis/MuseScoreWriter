@@ -18,6 +18,7 @@ import MuseScoreWriter.Util.FractionStack;
 import MuseScoreWriter.Util.IntCombinator;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 // Read args from file: -f fileName
 // Set doc title: -t title
@@ -91,7 +92,7 @@ public class OstinatoCombinationsWorksheet {
         new ArgumentReader<>(Arrays.asList(args), argResult, new ArgUpdater(), new ArgChecker()).readAllArgs();
 
         // Construct combinator
-        List<Limb> limbs = argResult.limbOstinatos.keySet().stream().toList();
+        List<Limb> limbs = argResult.limbOstinatos.keySet().stream().collect(Collectors.toList());
         List<Integer> numOstinatosPerLimb = new ArrayList<>();
         for (Limb limb : limbs)
             numOstinatosPerLimb.add(argResult.limbOstinatos.get(limb).size());

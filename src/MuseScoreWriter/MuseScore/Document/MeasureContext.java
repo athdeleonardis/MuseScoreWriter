@@ -3,9 +3,14 @@ package MuseScoreWriter.MuseScore.Document;
 import MuseScoreWriter.IndexedStaff.IndexedStaffChordReader;
 import MuseScoreWriter.CustomMath.Fraction;
 import MuseScoreWriter.MuseScore.Note.Chord;
+import MuseScoreWriter.MuseScore.Note.Note;
+import MuseScoreWriter.TimeLine.TimeLineReader;
 import MuseScoreWriter.Util.FractionStack;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 public class MeasureContext {
     private FractionStack fractionStack;
@@ -86,5 +91,14 @@ public class MeasureContext {
         Chord chord = chordReader.readChord(fractionStack.peek(), unit);
         fractionStack.subtract(chord.duration);
         msda.addNotes(chord.notes, chord.duration, addLimbText);
+    }
+
+    public <T extends Comparable<T>> void readTimeLine(TimeLineReader<Map<T, Note>> timeLineReader, Fraction unit, boolean addLimbText) {
+        Fraction maxReadLength = new Fraction(fractionStack.peek()).divide(unit).simplify();
+        TimeLineReader<Map<T,Note>>.TimeLineData timeLineData = timeLineReader.read(maxReadLength);
+        fractionStack.subtract(timeLineData.duration);
+        List<Note> notes = timeLineData.entry == null ? null : new ArrayList<>(timeLineData.entry.values());
+        Fraction duration = timeLineData.duration;
+        msda.addNotes(notes, duration, addLimbText);
     }
 }

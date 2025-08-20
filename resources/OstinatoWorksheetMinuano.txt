@@ -11,8 +11,11 @@
 -o LeftHand CrossStick OxxOxxOxxOxx
 -o LeftHand CrossStick OxxOxxOxOxOx
 -o LeftHand CrossStick xOxxOxxOxxOx
--o LeftHand CrossStick OxxOxxOxOxOx
+-o LeftHand CrossStick xxOxxOxxOxxO
+-o LeftHand Snare      xOxOOxxOxOOx
+-o LeftHand Snare      xOOxOOxOOxOO
 
 -o LeftFoot HihatClose OxxxOxxxOxxx
 -o LeftFoot HihatClose xxOxxxOxxxOx
 -o LeftFoot HihatClose xxOxxxxxOxxx
+-o LeftFoot HihatClose xOxxOxxOxxOx

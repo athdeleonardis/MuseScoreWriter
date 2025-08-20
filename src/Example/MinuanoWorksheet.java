@@ -127,6 +127,6 @@ public class MinuanoWorksheet {
             IndexedStaff<Integer,Boolean> abstracterStaff = IndexedStaffRudimentCreator.fromLinearPatternString(randomPattern, randomPattern);
             indexedStaff = rrc.create(abstracterStaff, false);
         }
-        staff.addNotes(indexedStaff, position, 1, true);
+        staff.addNotes(indexedStaff, position, 1, false);
     }
 }

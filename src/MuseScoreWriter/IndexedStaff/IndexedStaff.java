@@ -57,17 +57,17 @@ public class IndexedStaff<T extends Comparable<T>,S> implements Iterable<TreeMap
             staff.get(index).putAll(notes);
     }
 
-    public IndexedStaff<T,S> addNotes(IndexedStaff<T,S> notes, int position, int step, boolean includeNull) {
-        return addNotes(notes, position, 0, notes.getLength(), step, includeNull);
+    public IndexedStaff<T,S> addNotes(IndexedStaff<T,S> notes, int position, int step, boolean replace) {
+        return addNotes(notes, position, 0, notes.getLength(), step, replace);
     }
 
-    public IndexedStaff<T,S> addNotes(IndexedStaff<T,S> otherStaff, int index, int startIndex, int endIndex, int step, boolean includeNull) {
+    public IndexedStaff<T,S> addNotes(IndexedStaff<T,S> otherStaff, int index, int startIndex, int endIndex, int step, boolean replace) {
         int remaining = endIndex - startIndex;
         increaseToLength(index + step * remaining);
         // Loop through provided notes
         for (ListIterator<TreeMap<T,S>> iterator = otherStaff.staff.listIterator(startIndex); remaining > 0 && iterator.hasNext(); ) {
             TreeMap<T,S> notes = iterator.next();
-            addNotes(notes, index, includeNull);
+            addNotes(notes, index, replace);
             index += step;
             remaining--;
         }

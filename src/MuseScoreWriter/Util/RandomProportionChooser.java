@@ -2,6 +2,7 @@ package MuseScoreWriter.Util;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 // For choosing items with a probability proportional to their set proportion.
 public class RandomProportionChooser<T> {
@@ -35,7 +36,7 @@ public class RandomProportionChooser<T> {
         return itemToReturn;
     }
 
-    public List<T> getItems() { return proportions.keySet().stream().toList(); }
+    public List<T> getItems() { return proportions.keySet().stream().collect(Collectors.toList()); }
     public boolean isEmpty() { return proportions.isEmpty(); }
 
     public float getProportion(T item) {

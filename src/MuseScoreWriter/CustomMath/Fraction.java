@@ -110,7 +110,7 @@ public class Fraction extends Object implements Comparable<Fraction> {
 
     @Override
     public int compareTo(Fraction o) {
-        return this.subtract(o).getNumerator();
+        return this.numerator * o.denominator - o.numerator * this.denominator;
     }
 
     public static Fraction zero() {

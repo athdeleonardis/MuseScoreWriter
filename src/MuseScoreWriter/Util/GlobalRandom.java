@@ -2,7 +2,6 @@ package MuseScoreWriter.Util;
 
 import java.util.Collection;
 import java.util.Random;
-import java.util.List;
 
 public class GlobalRandom<T> {
     private static Random instance;

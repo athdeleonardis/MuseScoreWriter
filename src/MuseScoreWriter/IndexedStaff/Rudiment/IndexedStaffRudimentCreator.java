@@ -83,7 +83,6 @@ public class IndexedStaffRudimentCreator {
             int intMappedTo = characterMap.get(c);
             indexedStaff.setNote(intMappedTo, index, true);
         }
-        System.out.println(toString(indexedStaff));
         return indexedStaff;
     }
 
