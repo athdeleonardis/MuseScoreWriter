@@ -35,4 +35,13 @@ public class TimeLineInserter {
             timeLineToNotes.putAll(timeLineFromNotes);
         }
     }
+
+    public static <S extends Comparable<S>,T> void insert(TimeLine<Map<S,T>> timeLine, Fraction time, S key, T value) {
+        Map<S,T> map = timeLine.getEntry(time);
+        if (map == null) {
+            map = new TreeMap<>();
+            timeLine.insert(time, map);
+        }
+        map.put(key, value);
+    }
 }

@@ -16,7 +16,7 @@ public class ArgFileReader {
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;
             while ((line = bufferedReader.readLine()) != null) {
-                args.addAll(Arrays.asList(line.split("[, ]")).stream()
+                args.addAll(Arrays.asList(line.split("[ ]")).stream()
                         .map(str -> str.trim())
                         .filter(str -> !str.isEmpty())
                         .collect(Collectors.toList()));

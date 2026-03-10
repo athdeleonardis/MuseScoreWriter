@@ -95,6 +95,10 @@ public class Fraction extends Object implements Comparable<Fraction> {
         return this;
     }
 
+    public boolean greaterThan(Fraction other) {
+        return this.numerator * other.denominator > other.numerator * this.denominator;
+    }
+
     public float getValue() {
         return (float) this.numerator / this.denominator;
     }

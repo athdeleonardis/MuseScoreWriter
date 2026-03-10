@@ -105,6 +105,12 @@ public class MuseScoreDocumentAppender {
     // assumes the duration is simplified
     // for now, assumes the denominator must be even, i.e. whole half quarter eigth 16th
     private void addNoteDuration(XMLObject note, Fraction duration) {
+        // TODO(): There is an issue here with tuplets, e.g.
+        // 15-tuplet inside a quarter note has a duration of 1/(4*15) = 1/60
+        // Three of these has a duration of 3/60, or 1/20
+        // Currently, this function treats this as a quintuplet, and not three 15-tuplets
+        // Visually, a quintuplet and three 15-tuplets look different
+        // The issue is simplification of the duration fraction, more context is required.
         int durationType = MuseScoreDocumentCreator.nextHigherDurationType(duration);
         int numDots = 0;
         if (duration.getNumerator() > 1) {

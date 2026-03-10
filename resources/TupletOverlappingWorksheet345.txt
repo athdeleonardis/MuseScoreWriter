@@ -1,0 +1,12 @@
+-t 3-4-5
+-n 64
+-tu LeftArm 3 1
+-tu LeftArm 4 1
+-tu LeftArm 5 1
+-tu RightArm 3 1
+-tu RightArm 4 1
+-tu RightArm 5 1
+-no LeftArm Snare 1
+-no LeftArm HighTom 1
+-no RightArm MidTom 1
+-no RightArm LowTom 1

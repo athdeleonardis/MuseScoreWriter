@@ -53,6 +53,10 @@ public class NoteCreator {
             case "kick":
                 note = new Note("Kick", 65, 13);
                 break;
+            case "kickleft":
+            case "leftkick":
+                note = new Note("KickLeft", 64, 18);
+                break;
             case "hihatpedal":
             case "hihatclose":
                 note = new Note("HihatClose", 62, 16);

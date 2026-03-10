@@ -8,6 +8,11 @@ public class Integer {
         return gcd(b, a % b);
     }
 
+    // Calculate the lowest common multiple of two integers
+    public static int lcm(int a, int b) {
+        return a * b / gcd(a, b);
+    }
+
     // Just copied off stack overflow, don't even know if it's correct haha
     public static int log2(int bits) {
         int log = 0;
